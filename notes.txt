@@ -1,0 +1,77 @@
+
+globals
+   link
+    weapon
+    item
+    shield
+    inventory
+    health
+    animation_info
+     is_attacking
+     walking_speed
+     walking_index
+     direction
+     attack_animation_duration
+     current_attack_frame
+     wind_up_attack_frame
+     recovery_attack_frame
+   entities
+    enemies
+     damage
+     health
+     movement_pattern
+    rupees
+    items
+    weapons
+    shields
+   render_info
+    canvas
+    ctx
+    viewport
+    column_data
+    column_collision_data
+    rooms_as_collumns
+    rooms_as_collision_columns
+    room
+     coordinates
+     sprite_map
+     collision_map
+     enemies
+
+
+
+
+   init
+   main
+    update
+     handle_passage_of_time
+      check_for_dead_foes()
+      check_for_dead_link()
+      check_for_expired_weapons()
+      check_for_expired_loot()
+      check_for_expired_items()
+      progress_animation_paths()
+      progress_logic_paths()
+     handle_input
+      on up, down, left, right
+       update_link_position
+      on attack input
+       initialize_attack_logic()
+       initialize_attack_animation()
+     determine_collisions
+      
+     resolve_collisions
+      on link collision with enemy
+       recieve_damage(enemy)
+       initialize_invulnerability_logic()
+       initialize_invulnerability_animation()
+      on weapon collision with enemy
+       deal_damage(enemy, weapon)
+      on link collision with out of bounds
+       update_room_coordinates
+    render
+     draw
+      screen
+      items
+      link
+      enemies

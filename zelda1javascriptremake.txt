@@ -1,0 +1,99 @@
+zelda 1 javascript implementation
+
+map data
+
+sprites and background tiles 16x16
+screens/viewports are 256x176, which equates to 16 tiles by 11 tiles
+
+16x10 8x8 tiles in an overworld sprite sheet
+
+possible values for tiles
+passable
+impassable
+
+collision detection
+check base map data for collision
+then check sprite data map for objects sharing the tile
+
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+[,,,,,,,,,,,,,,,]
+tile
+ 0: floor / passable
+ 1: door(open)
+ 2: wall / impassible
+ 3: door(locked)
+enemies
+ type
+ position 0 - 175(16x16 tiles per screen) * 16 * 16 for granular movement pixel by pixel. when calcing collision, presume every enemy has a 16x16 sprite
+ health 0 - 3
+ direction 0 - 3
+items 
+ type 0 - 32
+  (blue candle, blue ring, bomb, book of magic, boomerang, bow & arrow, clock, compass, 
+  faerie, food, heart container, key, the letter, life potion, magical rod, magical boomerang, 
+  magical key, magical shield, magical sword, map, red potion (double use), power bracelet, raft, recorder, 
+  red candle, red ring, rupee, restoration heart, silver arrow, small shield, step ladder, wooden sword, 
+  white sword)
+ position (same as enemies)
+ price ( 1 bit for if the requirement is hearts or rupees, 7 for required number of those items)
+npcs
+raft pathing
+
+game_loop
+ if not_paused
+  play_cycle
+   read in game_state [overworld_or_underworld, screen_number, link [position, hearts, equiptment, inventory, invulnerability_cooldown], player_input [up,down,left,right,a,b,start,select, movement_throtle, a_throtle,b_throtle] ]
+   read in scenario[screen_number]
+   draw_background_tiles
+    read scenario[screen_number][meta_tile_map] as meta_tile_map
+     for i in meta_tile_map
+       display_meta_tile (i, meta_tile_map)
+        y as meta_tile_map[i]
+        x as i*2
+        display (viewport[x+0] , tiles[meta_tiles[y][0]])
+        display (viewport[x+1] , tiles[meta_tiles[y][1]])
+        display (viewport[x+16], tiles[meta_tiles[y][2]])
+        display (viewport[x+17], tiles[meta_tiles[y][3]])
+   draw_sprites
+   detect_collisions
+   resolve_collision_side_effects
+ else
+  when not_paused
+   game_loop
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+(http://blog.sklambert.com/create-a-canvas-tileset-background/)
+
+var tilesetImage = new Image();
+tilesetImage.src = 'path/to/image.png';
+tilesetImage.onload = drawImage;
+var canvas = document.getElementById('main');
+var ctx = canvas.getContext('2d');
+var tileSize = 32;       // The size of a tile (32×32)
+var rowTileCount = 20;   // The number of tiles in a row of our background
+var colTileCount = 32;   // The number of tiles in a column of our background
+var imageNumTiles = 16;  // The number of tiles per row in the tileset image
+function drawImage () {
+  for (var r = 0; r < rowTileCount; r++) {
+    for (var c = 0; c < colTileCount; c++) {
+      var tile = ground[ r ][ c ];
+      var tileRow = (tile / imageNumTiles) | 0; // Bitwise OR operation
+      var tileCol = (tile % imageNumTiles) | 0;
+      ctx.drawImage(tilesetImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (c * tileSize), (r * tileSize), tileSize, tileSize);
+      tile = layer1[ r ][ c ];
+      tileRow = (tile / imageNumTiles) | 0;
+      tileCol = (tile % imageNumTiles) | 0;
+      ctx.drawImage(tilesetImage, (tileCol * tileSize), (tileRow * tileSize), tileSize, tileSize, (c * tileSize), (r * tileSize), tileSize, tileSize);
+    }
+  }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,36 @@
+
+init
+main
+    get_time_since_last_frame
+    update
+        U_collision
+        u_screen
+            new_viewport?
+                calc_tiles
+                calc_collisions_data
+                calc_special_tiles
+                calc_enemy_pool
+            special_tile_triggered?
+                special_tile_action
+        u_items
+
+        u_enemies
+            dead_enemies?
+                remove_dead_enemies
+                spawn_loot
+            unspawned_enemies?
+                screen_ready_for_spawn?
+                    spawn unspawned enemy(ieS)
+            despawning_enemies?
+                enemy_ready_for_despawn?
+                    despawn_enemy(ieS)
+            respawning_enemies?
+                enemy_ready_for_respawn?
+                    respawn_enemy(ieS)
+        u_link
+    render
+        r_screen
+        r_items
+        r_enemies
+        r_link
+        

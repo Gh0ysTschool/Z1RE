@@ -1,0 +1,467 @@
+enemies[x,y,direction]
+direction[0up,1down,2left,3right]
+
+[],
+[orange_centaurs, [4,7,2], [8,9,1], [11,3,3], [8,12,3]],
+[orange_centaurs, [11,4,3], [12.5,4,3], [11.5,6,3], [12,7.5,0]],
+[3 boulders, [9.5,7,2],[12,3,2],[12.5,7.5,2] ],
+[6 blue centaurs [2,5,3],[3,7,],[5,4,1],[5,6,0],[7,6.5,1],[10,8,3],],
+[2 orange centaur, 2 blue centaur, 1 orange leveler, 1 blue leveler, [3,3,2],[10,2,2],[7,3.5,0],[10,8.5,0],[8,9,2],[12,5,1],[bomable, replace w/ cave entrace tile, 5,6, level 9, triforce, arrow, red ring]],
+[2 orange centaur, 2 blue centaur, 2 orange peahat, [3,4,3],[4,6,2],[4.5,4,2],[7,7,2],[7,2,0],[7,4,0]],
+[1 orange centaur [8,5,2], bombable entrace to save with 20 rupees [10,4]],
+[3 boulders[7,4,2],[9,3,2],[14,1,2]],
+[],
+[1 blue centaur, 1 river zora, [9,2,3],[8,5,1], entrance to save, 2,1, contains magical sword],
+[1 orange leveler [11,2.5,0], ENTRANCE to dungeon level 5, [7,4] flute heart container triforce],
+[6 orange tektite],
+[6 orange tektite],
+[],
+[],
+///////////
+[4 blue centaurs],
+[2 orange centaur, 2 blue centaur, 2 peahats],
+[6 blue centaurs],
+[2 orange centaur, 2 blue centaur],
+[4 orange centaur, 8 armos],
+[2 orange centaur, 2 blue centaur, 2 peahats],
+[3 boulder],
+[3 boulder],
+[3 boulder, 2 zora],
+[3 boulder, 1 zora],
+[6 tektite, 1 zora],
+[],
+[8 armos],
+[6 peahat],
+[6 tektite, 1 zora],
+[6 peahat],
+///////////////////////////
+[1 blue ghost master],
+[1 blue ghost master],
+[1 orange centaru, 8 white armos],
+[4 orange centaur],
+[10 armos],
+[8 armos],
+[6 peahat, 1 zora],
+[6 peahat, 1 zora],
+[6 peahat, 1 zora],
+[4 orange levelers],
+[6 blue levelers],
+[4 orange levelers, 2 blue levelers],
+[4 tektite],
+[3 orange octorock, 2 blue octorock, 1 zora],
+[4 blue octorock, 1 zora],
+[],
+///////////////////////
+[1 blue ghost master],
+[1 blue ghost master],
+[2 peahat, 2 orange centaur, 2 blue centaur],
+[10 white armos],
+[4 blue levelers, 6 armos],
+[1 zora],
+[1 zora],
+[],
+[5 orange octorock, 1 blue octorock, 1 zora],
+[],
+[4 orange levelers, 2 blue levelers],
+[4 blue levelers],
+[8 green armos],
+[2 green armos, 4 moblin],
+[3 orange octorock, 2 blue octorock, 1 zora],
+[blue octorock, 1 zora],
+///////////////////////
+[1 blue ghost master],
+[1 blue ghost master],
+[1 orange moblin],
+[],
+[4 orange octorock, 1 zora],
+[],
+[1 zora],
+[1 zora],
+[4 orange levelers],
+[5 orange octorock, 1 blue octorock],
+[6 blue octorock],
+[6 orange moblins],
+[3 orange octorock, 2 blue octorock],
+[4 moblin],
+[4 moblin, 2 armos],
+[3 orange octorock, 2 blue octorock, 1 zora],
+////////////////////////
+[5 orange centaurs],
+[5 moblin],
+[2 orange moblin, 2 moblin],
+[2 orange moblin, 3 moblin],
+[4 orange octorock, 1 zora],
+[1 orange octorock, 1 zora],
+[4 orange octorock, 1 zora],
+[4 orange octorock],
+[4 orange octorock],
+[4 levelers, 1 zora],
+[4 orange octorock, 1 zora],
+[2 orange moblin, 2 moblin],
+[4 moblin],
+[4 moblin],
+[6 moblin],
+[3 orange octorock, 2 blue octorock, 1 zora],
+////////////////////////////
+[2 orange centaur, 2 blue centaur, 2 orange peahat],
+[5 moblin],
+[5 moblin],
+[3 orange moblin, 2 blue octorock, 1 moblin],
+[3 orange octorock, 2 blue octorock],
+[4 orange octorock, 1 zora],
+[4 orange octorock],
+[4 orange octorock],
+[4 orange octorock],
+[4 orange octorock, 1 zora],
+[4 orange octorock, 1 zora],
+[3 orange moblin, 2 blue octorock, 1 moblin],
+[4 moblin],
+[4 moblin],
+[3 orange moblin, 2 blue octorock, 1 moblin],
+[4 orange octorock, 1 blue octorock, 1 zora],
+//
+[4 peahat],
+[5 moblin],
+[3 moblin, 1 orange moblin],
+[4 moblin],
+[1 orange tektite, 8 armos],
+[3 peahat, 2 blue levelers, 1 leveler, 1 zora],
+[4 tektite],
+[],
+[4 orange tektite],
+[5 blue tektite],
+[4 blue tektite],
+[6 levelers, 1 zora],
+[6 levelers, 1 zora],
+[4 blue octorock, 1 zora],
+[4 orange octorock, 1 zora],
+[1 blue octorock, 1 zora],
+
+
+
+
+
+enemies
+[
+    0 orange tektite,
+    1 blue tektite,
+    2 armos,
+    3 orange centaur,
+    4 blue centaur,
+    5 ghost (master),
+    6 ghost (slave),
+    7 peahat,
+    8 orange leveler,
+    9 blue leveler,
+    10 orange moblin,
+    11 blue moblin,
+    12 orange octorock, 
+    13 blue octorock,
+    14 zora,
+    15 armos,
+]
+secret interactables
+[
+    bombable piece of terain
+        w/ replacement tile
+        and / or w/ item on tile
+    cave entrace
+        w/ destination viewport
+    burnable bush
+        w/ replacement tile
+        and / or w/ item on tile
+    interatable statue
+        w/ replacement tile
+        and / or w/ item on tile
+    tile revealed by use of the recorder
+        w/ replacement tile
+        and / or w/ item on tile
+    stairs
+        w/ destination viewport
+    lever hit with boomerang
+        w/ replacement tile
+        w/ applicable viewport
+        and / or w/ item on tile
+    
+]
+items
+[
+    wooden sword,
+    heart,
+    heart container,
+    triforce,
+    fairy,
+    rupy,
+    5 rupy,
+    life potion,
+    2nd life potion,
+    letter,
+    food,
+    white sword,
+    magical sword,
+    magical shield, 
+    boomerang,
+    bomb, 
+    bow,
+    arrow,
+    silver arrow,
+    blue candle, 
+    red candle, 
+    blue ring, 
+    red ring, 
+    power bracelet, 
+    recorder, 
+    raft, 
+    stepladder,
+    magical rod,
+    book of magic,
+    key, 
+
+]
+
+enemies
+[
+    0 orange tektite,
+    1 blue tektite,
+    2 armos,
+    3 orange centaur,
+    4 blue centaur,
+    5 ghost (master),
+    6 ghost (slave),
+    7 peahat,
+    8 orange leveler,
+    9 blue leveler,
+    10 orange moblin,
+    11 blue moblin,
+    12 orange octorock, 
+    13 blue octorock,
+    14 zora,
+    15 armos,
+    16 boulder
+]
+rooms_as_enemies =
+[
+    [],
+    [3,3,3,3],
+    [16,16,16],
+    [4,4,4,4,4,4],
+    [3,3,4,4,8,9],
+    [3, special],
+    [16,16,16],
+    [],
+    [4,14,,special],
+    [8,special],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [].
+    [],
+
+    [4,4,4,4],
+    [3,3,4,4,7,7],
+    [4,4,4,4,4,4],
+    [3,3,4,4],
+    [3,3,3,3]
+    [3,3,4,4,7,7],
+    [16,16,16],
+    [16,16,16],
+    [16,16,16,14,14],
+    [16,16,16,14],
+    [0,0,0,0,0,0,14],
+    [],
+    [],
+    [7,7,7,7,7,7],
+    [0,0,0,0,0,0,14],
+    [7,7,7,7,7,7],
+    
+    [5,special],
+    [5,special],
+    [3],
+    [3,3,3,3],
+    [],
+    [],
+    [7,7,7,7,7,7,14],
+    [7,7,7,7,7,7,14],
+    [7,7,7,7,7,7,14],
+    [8,8,8,8],
+    [9,9,9,9,9,9],
+    [8,8,8,8,9,9],
+    [0,0,0,0],
+    [12,12,12,13,13,14],
+    [13,13,13,13,14],
+    [],
+
+    [5,special],
+    [5,special],
+    [7,7,3,3,4,4],
+    [],
+    [9,9],
+    [14],
+    [14],
+    [],
+    [12,12,12,12,12,13,14],
+    [],
+    [8,8,8,8,9,9],
+    [9,9,9,9],
+    [],
+    [11,11,11,11],
+    [12,12,12,13,13,14],
+    [13,14],
+
+    [5,special],
+    [5,special],
+    [10],
+    [],
+    [12,12,12,12,14],
+    [],
+    [14],
+    [14],
+    [8,8,8,8],
+    [12,12,12,12,12,13],
+    [13,13,13,13,13,13],
+    [10,10,10,10,10,10],
+    [12,12,12,13,13],
+    [10,10,10,10],
+    [10,10,10,10],
+    [12,12,12,13,13,14],
+
+    [3,3,3,3,3],
+    [11,11,11,11,11],
+    [10,10,11,11],
+    [10,10,11,11,11],
+    [12,12,12,12,14],
+    [12,14],
+    [12,12,12,12,14],
+    [12,12,12,12],
+    [12,12,12,12],
+    [8,8,8,8,14],
+    [12,12,12,12,14],
+    [10,10,11,11],
+    [11,11,11,11],
+    [11,11,11,11],
+    [11,11,11,11,11],
+    [12,12,12,13,13,14],
+
+    [3,3,4,4,7,7],
+    [11,11,11,11,11],
+    [11,11,11,11,11],
+    [10,10,10,13,13,11],
+    [12,12,12,13,13],
+    [12,12,12,12,13],
+    [12,12,12,12],
+    [12,12,12,12],
+    [12,12,12,12],
+    [12,12,12,12,14],
+    [12,12,12,12,14],
+    [10,10,10,13,13,11],
+    [11,11,11,11],
+    [11,11,11,11],
+    [10,10,10,13,13,11],
+    [12,12,12,12,13,14],
+
+    [7,7,7,7],
+    [11,11,11,11,11],
+    [11,11,11,10],
+    [11,11,11,11],
+    [0],
+    [7,7,7,9,9,8,14],
+    [0,0,0,0],
+    [],
+    [0,0,0,0],
+    [1,1,1,1,1],
+    [1,1,1,1,1,1],
+    [9,9,9,9,9,9,14],
+    [9,9,9,9,9,9,14],
+    [13,13,13,13,14],
+    [12,12,12,12,14],
+    [13,13,13,13,14],
+
+]
+
+secrets [
+    bombable cave w/ 20 rupees
+    bombable cave w/ 20 rupees
+    cave w/ 40r blue potion, 68r red potion
+    bombable entrance to level 9
+    bombable cave w/ 20 rupees
+    cave w/ white sword
+    entrance to level 5
+    cave w/ 160r magic shield, 100r key, 60r candle
+    bombable cave w/ 40r blue potion, 68r red potion
+    cave w/ letter
+    cave w/ 100 rupees
+    bombable cave to 'lets play money making game'
+    bombable cave w/ 90r magic shield, 100r meat, 10r heart
+    bombable cave w/ 30 rupees
+    bombable cave w/ 20 rupees
+    bombable cave to 'lets play money making game'
+    waterfall w/ 'go up up the mountain ahead
+    armos w/ stairs to 'secret is in the tree at the dead end'
+    switch w/ stairs w/ 3 stairs w/ 'take any road you want.'
+    bombable cave w/ 20 rupees
+    bomable double wall w/ path
+    cave to 'lets play money making game' 
+    ghost spawning tombstone
+    stairs w/ magical sword
+    entrance to level 6
+    switch w/ stairs w/ 3 stairs w/ 'take any road you want.'
+    armos w/ boomerang
+    cave w/ 130r magical shield, 20r 4bomb,80 fire arrows
+    cave w/ 90r magical shield, 100r meat, 10r heart
+    bombable cave w/ 40r blue potion, 68r red potion
+    burnable bush w/ stairs w/ 30 rupees
+    bombable cave w/ heart container or red potion
+    bombable cave w/ 30 rupees
+    cave w/ red potion or heart container
+    bombable cave w/ 40r blue potion, 68r red potion
+    armos w/ stairs w/ 50r key, 250r blue ring, 60r meat
+    cave entrance to level 1
+    1 fairy
+    cave entrance to level 2 dungeon
+    armos w/ stairs w/ 30 rupees
+    ghost spawning tombstone
+    ghost spawning tombstone
+    flutible sand w/ stairs to level 7 dungeons
+    fairy
+    cave entrance w/ 130r magical shield 20r bomb 80r firearrows
+    cave entrance to level 4 dungeon
+    burnable bush w/ stairs to cave w/ 90r magical shield 100r meat 10r heart
+    burnable bush w/ stairs to cave w/ red potion or heart container
+    burnable bush w/ stairs to room w/ 30 rupees
+    switch w/ bush->stairs to 'take any road you want.'
+    cave w/ 130r magical shield, 20r bombs, 80r firearrows
+    burnable bush w/ stairs to cave w/ 40r blue potion 65r red potion
+    burnable bush w/ stairs to cave w/ 90r magical shield 100r meat 10r heart
+    armos w/ stairs to room with 10 rupees
+    burnable bush w/ stairs to room with 10 rupees
+    burnable bush w/ stairs to room with 10 rupees
+    burnable bush w/ stairs to room with 10 rupees
+    cave entrance w/ 160r magical shield 100r key 60r candle
+    burnable bush w/ stairs to room with 100 rupees
+    burnable bush w/ stairs to room with 20 rupees
+    burnable bush w/ stairs to cave w/ 40r blue potion 65r red potion
+    cave entrance w/ 160r magical shield 100r key 60r candle
+    bombable cave entrance w/ 30rupees
+    burnable bush w/ stairs to room with 20 rupees
+    burnable bush w/ stairs to room with 20 rupees
+    burnable bush w/ stairs to room with 100 rupees
+    burnable bush w/ stairs to the entrance of level 6 dungeon
+    cave w/ 130r magical shield, 20r bombs, 80r firearrows
+    cave w/ 'go northwest, south, west to the forest of maze'
+    bombable cave entrance w/ 30rupees
+    entrance to level 3 dungeon
+    cave w/ meet the old man at the grave
+    bombable cave to 'lets play money making game'
+    cave w/ wooden sword w/ 'it's dangerous to go alone. Take this.'
+
+
+
+
+]
+
+[open/bombable/fluteactivated/burnable/switch[w/coordinates]/armos,
+initial tile w/ collision, replacement tile w/ collision w/ destination, coordinates]
+{
+    initial tiles : { x, y, index, collision, on_collide_destination},
+    replacement_tile : { x, y, index, collision, on_collide_destination},
+    replacement_trigger : 0-5,
+}

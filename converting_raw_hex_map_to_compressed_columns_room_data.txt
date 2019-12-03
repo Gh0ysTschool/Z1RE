@@ -1,0 +1,63 @@
+original hex map
+ 88 sub arrays
+  256 values
+
+convert to an array of unique columns
+and an array of rooms made up of 16 columns
+
+for each set of 11 subarrays (8)
+ for each n(1-256) values
+  for each nth element in subarray 1 - 11
+for (let i = 0; i < 88; i+=11){
+    for (let i = 0; i < 0; i++){
+        for (let i = 0; i < 0; i++){
+            
+        }   
+    }   
+}
+
+
+    let column = [];
+    let columns = {};
+    let str = "";
+    let rooms_as_columns = [];
+    for (let rows = 0; rows < 88; rows += 11){
+        for (let col = 0; col < 256; col++){
+            for ( let i = 0; i < 16; i++){
+                column.push(hex_arr[i+rows][col]);
+                str += hex_arr[i+rows][col] + ',';
+            }
+            for (let m = 0; m < 256; m++){
+                let l = true;
+                if (column_data[m][0] != column[0]){l=false}
+                if (column_data[m][1] != column[1]){l=false}
+                if (column_data[m][2] != column[2]){l=false}
+                if (column_data[m][3] != column[3]){l=false}
+                if (column_data[m][4] != column[4]){l=false}
+                if (column_data[m][5] != column[5]){l=false}
+                if (column_data[m][6] != column[6]){l=false}
+                if (column_data[m][7] != column[7]){l=false}
+                if (column_data[m][8] != column[8]){l=false}
+                if (column_data[m][9] != column[9]){l=false}
+                if (column_data[m][10] != column[10]){l=false}
+                if (column_data[m][11] != column[11]){l=false}
+                if(l){
+                    rooms_as_columns.push(m);
+                    break;
+                }
+            }
+            columns[str] = Array.from(column);
+            column = [];
+            str = "";
+        }
+    }
+    for (let p = 0; p < 11; p++){
+        
+        let string = "[";
+        for (let yy = 0+256*p; yy < 256+256*p; yy++){
+            string+=rooms_as_columns[yy]+','
+        }
+        string+=']';
+        console.log(string);
+
+    }
