@@ -3,6 +3,8 @@ let render_info, entities, link, collisions;
 function init(){
     link = {
         health : 3,
+        invulnerabile : false,
+        invulnerability_timer : 0,
         animation_info : {
             position: {
                 x : 5,
@@ -12,6 +14,7 @@ function init(){
                 x : 5,
                 y : 8,
             },
+            hitbox_dimensions : { w : 16, h : 16 },
             walking_speed : 5 ,
             walking_index : 0,
             direction : {
@@ -47,26 +50,30 @@ function init(){
     };
     entities = {
         enemies : {
-            'octorock' : {
+            'octorock_orange' : {
                 damage : 1,
                 health : 1,
                 movement_pattern : [
-                    [1,0],
-                    [-1,0],
-                    [0,1],
-                    [0,-1],
+                    {x:1,y:null},
+                    {x:null,y:0},
+                    {x:null,y:1},
+                    {x:0,y:null},
+                    {x:null,y:null},
                 ],
-                movement_frequency : 5,
+                movement_frequency : 60,
+                spawn_frequency : 2,
                 animation_info : {
-                    position: {
-                        x : 5,
-                        y : 8,
-                    },
-                    potential_position: {
-                        x : 5,
-                        y : 8,
-                    },
-                    walking_speed : 5 ,
+                    position : null,
+                    // position: {
+                    //     x : 5,
+                    //     y : 8,
+                    // },
+                    potential_position : null,
+                    // potential_position: {
+                    //     x : 5,
+                    //     y : 8,
+                    // },
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: 0,
@@ -76,15 +83,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
+                    number_of_sprites : 8,
                     sprite_index : { x : 0, y : 0 },
                 },
             },
             'tektite_orange' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 1,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -94,7 +103,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -104,15 +113,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 2,
+                    sprite_index : { x : 8, y : 6 },
                 },
             },
             'tektite_blue' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 1,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -122,7 +133,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -132,14 +143,44 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    sprite_index : { x : 9, y : 6 },
+                },
+            },
+            'peahat' : {
+                damage : 1,
+                health : 2,
+                movement_pattern : [
+                ],
+                spawn_frequency : null,
+                movement_frequency : 40,
+                animation_info : {
+                    position: {
+                        x : null,
+                        y : null,
+                    },
+                    potential_position: {
+                        x : null,
+                        y : null,
+                    },
+                    walking_speed : 2 ,
+                    walking_index : 0,
+                    direction : {
+                        x: null,
+                        y: null,
+                    },
+                    dimensions : {
+                        w : 16,
+                        h : 16,
+                    },
+                    sprite_index : { x : 10, y : 10 },
                 },
             },
             'armos_orange' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 3,
                 movement_pattern : [
                 ],
+                spawn_frequency : null,
                 movement_frequency : null,
                 animation_info : {
                     position: {
@@ -160,15 +201,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 2,
+                    sprite_index : { x : 12, y : 4 },
                 },
             },
-            'orange_centaur_orange' : {
-                damage : null,
-                health : null,
+            'centaur_orange' : {
+                damage : 1,
+                health : 4,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -178,7 +221,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -188,15 +231,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 8,
+                    sprite_index : { x : 0, y : 8 },
                 },
             },
             'centaur_blue' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 6,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -206,7 +251,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -216,15 +261,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 8,
+                    sprite_index : { x : 4, y : 8 },
                 },
             },
             'ghost_master' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 9,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -234,7 +281,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -244,14 +291,16 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 4,
+                    sprite_index : { x : 10, y : 4 },
                 },
             },
             'ghost_slave' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 9,
                 movement_pattern : [
                 ],
+                                spawn_frequency : null,
                 movement_frequency : null,
                 animation_info : {
                     position: {
@@ -272,15 +321,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 4,
+                    sprite_index : { x : 10, y : 4 },
                 },
             },
             'leveler_orange' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 2,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -290,7 +341,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -300,15 +351,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 5,
+                    sprite_index : { x : 8, y : 10 },
                 },
             },
             'leveler_blue' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 4,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -318,7 +371,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -328,15 +381,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 5,
+                    sprite_index : { x : 8, y : 11 },
                 },
             },
             'moblin_orange' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 2,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -346,7 +401,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -356,7 +411,8 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 8,
+                    sprite_index : { x : 0, y : 3 },
                 },
             },
             'moblin_blue' : {
@@ -364,6 +420,7 @@ function init(){
                 health : null,
                 movement_pattern : [
                 ],
+                                spawn_frequency : null,
                 movement_frequency : null,
                 animation_info : {
                     position: {
@@ -384,43 +441,45 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    sprite_index : { x : 4, y : 3 },
                 },
             },
-            'octorock_orange' : {
-                damage : null,
-                health : null,
-                movement_pattern : [
-                ],
+            // 'octorock_orange' : {
+            //     damage : null,
+            //     health : null,
+            //     movement_pattern : [
+            //     ],
+            //                     spawn_frequency : null,
                 movement_frequency : null,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : null ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    sprite_index : { x : null, y : null },
-                },
-            },
+            //     animation_info : {
+            //         position: {
+            //             x : null,
+            //             y : null,
+            //         },
+            //         potential_position: {
+            //             x : null,
+            //             y : null,
+            //         },
+            //         walking_speed : null ,
+            //         walking_index : 0,
+            //         direction : {
+            //             x: null,
+            //             y: null,
+            //         },
+            //         dimensions : {
+            //             w : 16,
+            //             h : 16,
+            //         },
+            //         sprite_index : { x : null, y : null },
+            //     },
+            // },
             'octorock_blue' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 2,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -430,7 +489,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -440,15 +499,17 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 8,
+                    sprite_index : { x : 4, y : 0 },
                 },
             },
             'zora' : {
-                damage : null,
-                health : null,
+                damage : 1,
+                health : 2,
                 movement_pattern : [
                 ],
-                movement_frequency : null,
+                spawn_frequency : null,
+                movement_frequency : 40,
                 animation_info : {
                     position: {
                         x : null,
@@ -458,7 +519,7 @@ function init(){
                         x : null,
                         y : null,
                     },
-                    walking_speed : null ,
+                    walking_speed : 2 ,
                     walking_index : 0,
                     direction : {
                         x: null,
@@ -468,7 +529,8 @@ function init(){
                         w : 16,
                         h : 16,
                     },
-                    sprite_index : { x : null, y : null },
+                    number_of_sprites : 4,
+                    sprite_index : { x : 4, y : 10 },
                 },
             },
             'boulder' : {
@@ -476,6 +538,7 @@ function init(){
                 health : null,
                 movement_pattern : [
                 ],
+                                spawn_frequency : null,
                 movement_frequency : null,
                 animation_info : {
                     position: {
@@ -509,24 +572,27 @@ function init(){
         canvas : document.createElement("canvas"),
         ctx : null,
         viewport : { x : 7, y : 7 },
+        underworld_viewport : { x : 0 , y : 0 },
+        overworld : true,
         //an array of monster names used to translate indeces in the rooms_as_enemies to the key:value pairs in the entities.enemies POJO
         index_to_enemy_name_mapping : [
-            "orange tektite",
-            "blue tektite",
-            "armos",
-            "orange centaur",
-            "blue centaur",
-            "ghost (master)",
-            "ghost (slave)",
+            "tektite_orange",
+            "tektite_blue",
+            "armos_orange",
+            "orange_centaur",
+            "blue_centaur",
+            "ghost_master",
+            "ghost_slave",
             "peahat",
-            "orange leveler",
-            "blue leveler",
-            "orange moblin",
-            "blue moblin",
-            "orange octorock", 
-            "blue octorock",
+            "leveler_orange",
+            "leveler_blue",
+            "moblin_orange",
+            "moblin_blue",
+            "octorock_orange", 
+            "octorock_blue",
             "zora",
-            "armos",
+            "armos_orange",
+            "boulder",
         ],
         //the 255 different columns that LoZ uses in varying combinations to create each overworld screen's background sprites
         column_data : [
@@ -779,6 +845,10 @@ function init(){
             ,[61, 61, 2, 2, 1, 2, 1, 2, 2, 41, 41]
             ,[2, 2, 2, 2, 2, 143, 101, 101, 101, 101, 101]
             ,[100, 100, 100, 100, 100, 101, 101, 101, 101, 101, 101]
+            
+            //custom columns for underworld dark rooms
+            ,[61,61,24,24,24,24,24,24,24,61,61]
+            ,[61,61,24,24,24,24,24,24,24,24,24]
         ],
         //the 38 different columns that LoZ uses in varying combinations to create each overworld screen's collision data
         column_collision_data : [
@@ -820,11 +890,13 @@ function init(){
             [1,1,1,1,1,0,0,1,1,1,1,],
             [1,1,1,1,1,0,1,1,1,1,1,],
             [1,1,1,1,1,1,0,0,1,1,1,],
-            [1,1,1,1,1,1,1,1,1,1,1,],],
+            [1,1,1,1,1,1,1,1,1,1,1,],
+        ],
         //each room in LoZ is made up of 16 columns of 11 tiles. 
         //each 16 integers in each row of the nested arrays represent a room 
         //by containing 16 indexes to columns stored in the column_data nested array
         rooms_as_columns : [
+            //overworld
             0,0,0,0,0,0,0,1,2,2,2,2,2,2,2,2,2,3,4,5,6,5,7,8,6,9,10,11,12,13,14,15,2,2,2,1,2,2,2,2,2,16,17,4,18,5,7,7,6,10,11,19,14,15,2,2,2,2,1,0,0,0,0,0,0,20,7,7,6,5,21,20,6,22,23,9,24,9,9,19,17,19,17,25,26,27,28,9,9,25,26,27,28,9,19,15,16,15,16,3,17,19,17,12,13,19,15,16,15,16,15,2,2,2,2,2,1,2,16,3,14,15,2,2,16,15,2,2,16,15,16,3,17,19,17,12,13,19,15,16,15,16,15,2,16,17,19,17,29,30,31,9,29,9,29,9,29,19,14,0,0,17,24,32,33,34,35,36,33,33,33,37,9,38,19,0,0,3,17,39,9,39,40,41,42,39,9,39,10,11,19,0,0,0,0,0,0,1,16,17,24,9,12,13,14,3,17,9,9,9,19,14,3,17,10,11,9,9,4,18,5,8,21,0,43,43,43,43,43,44,43,43,43,43,45,45,45,45,45,45,45,0,9,9,40,42,9,40,46,42,9,40,42,9,0,45,
             0,3,17,9,31,9,30,47,29,9,9,48,49,50,9,48,51,9,52,53,51,9,9,47,29,9,30,9,31,9,19,0,0,20,7,54,7,6,22,23,9,48,49,50,48,49,50,48,51,9,9,4,18,5,7,7,7,7,54,7,6,22,23,9,9,12,13,39,9,9,39,9,9,39,38,9,9,39,4,5,7,21,20,8,7,21,20,6,12,13,19,17,9,38,19,17,19,17,12,13,19,17,9,9,5,7,6,15,16,3,17,9,10,11,4,5,54,7,55,56,56,56,56,57,57,57,57,57,57,57,57,57,57,57,57,57,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,58,59,7,7,7,7,7,7,54,7,2,2,16,17,30,9,31,9,60,30,9,30,9,29,19,15,2,16,17,9,38,9,47,9,39,9,39,9,39,9,39,9,9,9,9,38,29,19,0,20,61,61,62,63,64,65,66,65,65,65,65,65,65,65,66,65,2,2,23,9,9,9,9,9,9,9,9,67,68,69,70,71,68,69,72,67,73,72,9,0,45,
             74,74,75,76,77,77,76,77,77,76,77,77,76,77,78,78,78,78,77,76,77,77,76,77,77,76,77,77,76,77,79,79,0,0,80,81,81,81,82,83,84,85,81,81,81,80,0,0,0,17,9,29,30,29,38,19,0,0,17,9,9,38,9,9,9,9,39,19,17,39,12,13,39,9,47,39,12,13,39,9,9,9,39,47,38,39,12,13,39,9,24,39,9,47,19,0,0,17,86,86,9,19,14,3,17,87,64,65,63,64,65,63,64,65,63,64,65,63,45,88,89,89,89,64,65,63,90,90,91,91,92,92,92,92,93,94,94,95,95,96,95,97,98,95,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,100,100,100,100,100,100,100,100,100,100,100,100,100,99,99,100,100,100,100,100,100,100,100,100,100,100,100,100,99,99,9,9,9,47,9,25,26,101,101,27,28,9,5,7,7,7,7,7,54,6,9,9,12,102,102,103,104,104,104,104,104,104,104,104,105,105,105,105,105,105,106,107,45,45,45,45,45,45,74,78,108,109,78,108,110,109,78,108,109,78,78,74,74,74,
@@ -833,9 +905,12 @@ function init(){
             74,74,187,187,187,187,187,187,187,187,187,187,187,187,188,74,122,98,95,121,95,121,95,121,95,121,94,94,189,189,189,189,189,189,95,95,190,191,191,192,192,191,191,191,191,191,190,190,190,190,95,95,94,94,97,102,102,94,193,94,95,94,98,189,169,169,167,142,142,143,167,184,184,194,163,165,165,163,195,195,195,195,163,163,196,160,160,162,197,163,198,163,198,163,195,195,195,195,195,165,165,165,166,184,184,167,145,167,145,145,167,167,167,167,167,176,167,176,167,143,167,143,167,176,167,143,167,143,143,167,143,142,176,142,143,102,102,143,142,143,142,176,142,169,169,169,169,169,169,169,169,102,102,199,200,200,200,200,200,200,200,200,200,201,201,201,202,142,142,142,142,167,167,145,142,167,167,102,145,102,102,102,145,102,145,102,143,167,102,184,167,203,203,203,203,203,204,205,205,205,205,205,205,205,142,169,169,169,169,169,169,102,169,169,169,169,169,169,169,169,102,169,169,169,131,132,134,134,173,171,172,175,140,170,131,132,173,134,140,130,0,0,20,6,12,102,102,102,102,186,119,45,119,45,45,45,
             122,122,206,206,206,206,206,206,206,206,206,206,206,206,98,189,189,189,189,189,189,189,189,189,189,189,102,102,189,189,189,189,189,189,189,189,189,207,102,94,122,207,207,207,207,207,98,98,98,98,95,208,206,206,121,102,102,102,208,102,209,102,98,189,170,131,132,174,174,139,173,175,138,174,174,139,138,174,139,134,134,138,174,210,102,211,211,174,174,174,212,174,213,174,139,134,134,134,134,212,212,212,212,175,213,213,213,214,215,215,140,170,131,132,134,216,134,216,134,215,215,140,132,134,216,134,140,170,131,132,145,102,143,102,176,102,102,143,102,176,102,143,102,169,169,185,145,167,167,143,167,184,184,217,165,165,165,165,165,165,165,165,165,165,165,165,166,184,184,184,184,167,145,167,184,167,167,184,145,184,184,184,145,184,145,184,143,142,102,142,185,169,169,169,169,169,218,141,185,167,167,167,167,167,184,203,203,203,203,203,167,184,205,205,205,205,205,205,141,205,218,169,169,169,169,185,167,143,143,143,167,176,176,167,145,145,145,145,167,167,13,9,9,24,12,102,102,102,102,186,45,45,45,45,45,45,
             0,16,3,17,219,220,221,222,220,221,222,223,219,219,219,219,219,219,219,224,225,219,219,219,219,224,226,226,225,19,14,3,189,189,227,227,227,227,192,192,190,190,190,190,190,190,190,190,190,190,190,190,190,190,190,206,206,206,209,206,95,206,98,189,131,132,228,228,229,228,229,230,231,232,229,228,229,228,140,130,130,132,233,234,235,160,160,236,237,228,238,228,237,228,228,228,228,228,239,228,228,239,228,228,237,228,238,240,241,241,170,181,182,183,242,243,233,228,240,241,241,244,245,245,245,245,182,182,183,131,145,184,145,184,143,184,184,143,184,143,184,143,184,167,246,247,248,249,21,20,250,246,251,252,251,219,19,15,2,2,16,15,16,3,17,19,17,250,246,19,15,16,15,16,15,2,2,16,15,2,16,3,17,87,90,90,90,89,89,89,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,64,65,63,64,65,65,65,63,64,65,63,64,63,64,63,64,65,65,63,89,89,89,253,254,45,45,45,45,45,45,
+            //custom rooms for underground dark rooms
+            0,0,255,255,255,255,255,256,256,255,255,255,255,255,0,0,
         ],
 
         rooms_as_collision_columns : [
+            //overworld
             38,38,38,38,38,38,38,33,36,36,36,36,36,36,36,36,36,31,27,34,34,34,34,33,34,9,9,9,9,9,31,36,36,36,36,33,36,36,36,36,36,36,28,27,30,34,34,34,34,9,9,28,31,36,36,36,36,36,33,38,38,38,38,38,38,37,34,34,34,34,37,37,34,30,27,9,9,9,9,28,28,28,28,15,22,22,15,9,9,15,22,22,15,9,28,36,36,36,36,31,28,28,28,9,9,28,36,36,36,36,36,36,36,36,36,36,33,36,36,31,31,36,36,36,36,36,36,36,36,36,36,31,28,28,28,9,9,28,36,36,36,36,36,36,36,28,28,28,12,14,17,9,12,9,12,9,12,28,31,38,38,28,9,22,22,22,25,22,22,22,22,22,9,8,28,38,38,31,28,14,9,14,19,18,19,14,9,14,9,9,28,38,38,38,38,38,38,33,36,28,9,9,9,9,31,31,28,9,9,9,28,31,31,28,9,9,9,9,27,30,34,33,37,38,38,38,38,38,38,33,38,38,38,38,38,38,38,38,38,38,38,38,9,9,19,19,9,19,18,19,9,19,19,9,38,38,
             38,31,28,9,17,9,14,1,12,9,9,19,20,10,9,19,19,9,10,20,19,9,9,1,12,9,14,9,17,9,28,38,38,37,34,1,34,34,30,27,9,19,20,10,19,20,10,19,19,9,9,27,30,34,34,34,34,34,1,34,34,30,27,9,9,9,9,14,9,9,14,9,9,14,8,9,9,14,27,34,34,37,37,33,34,37,37,34,9,9,28,28,9,8,28,28,28,28,9,9,28,28,9,9,34,34,34,36,36,31,28,9,9,9,27,34,1,34,38,33,33,33,33,34,34,34,34,34,34,34,34,34,34,34,34,34,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,35,34,34,34,34,34,34,1,34,36,36,36,28,14,9,17,9,0,14,9,14,9,12,28,36,36,36,28,9,8,9,1,9,14,9,14,9,14,9,14,9,9,9,9,8,12,28,38,37,33,33,36,32,32,32,4,32,32,32,32,32,32,32,4,32,36,36,27,9,9,9,9,9,9,9,9,19,19,10,20,19,19,10,10,19,20,10,9,38,38,
             38,38,26,16,8,8,16,8,8,16,8,8,16,8,9,9,9,9,8,16,8,8,16,8,8,16,8,8,16,8,38,38,38,38,9,14,14,14,19,18,19,19,14,14,14,9,38,38,38,28,9,12,14,12,8,28,38,38,28,9,9,8,9,9,9,9,14,28,28,14,9,9,14,9,1,14,9,9,14,9,9,9,14,1,8,14,9,9,14,9,9,14,9,1,28,38,38,28,8,8,9,28,31,31,28,11,32,32,32,32,32,32,32,32,32,32,32,32,38,4,4,4,4,32,32,32,11,11,11,11,11,11,11,11,11,8,8,9,9,17,9,14,28,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,9,9,8,8,8,8,8,8,8,8,8,8,8,8,8,9,9,9,9,9,1,9,15,22,22,22,22,15,9,34,34,34,34,34,34,1,34,9,9,9,0,0,34,34,34,34,34,34,34,34,34,33,33,33,33,33,33,33,38,38,38,38,38,38,38,38,9,19,19,9,19,18,19,9,19,19,9,9,38,38,38,
@@ -844,15 +919,20 @@ function init(){
             38,38,33,33,33,33,33,33,33,33,33,33,33,33,1,38,38,28,9,14,9,14,9,14,9,14,8,8,31,31,31,31,31,31,9,9,24,23,23,7,7,23,23,23,23,23,24,24,24,24,9,9,8,8,14,0,0,8,12,8,9,8,28,31,31,31,9,8,8,17,9,1,1,33,33,34,34,33,36,36,36,36,33,33,33,38,38,33,29,33,34,33,34,33,36,36,36,36,36,34,34,34,34,1,1,9,14,9,14,14,9,9,9,9,9,12,9,12,9,17,9,17,9,12,9,17,9,17,17,9,17,8,12,8,17,0,0,17,8,17,8,12,8,31,31,31,31,31,31,31,31,0,0,32,32,32,32,32,32,32,32,32,32,11,11,11,11,8,8,8,8,9,9,14,8,9,9,0,14,0,0,0,14,0,14,0,17,9,0,1,9,24,24,24,24,24,23,25,25,25,25,25,25,25,8,31,31,31,31,31,31,0,31,31,31,31,31,31,31,31,0,31,31,31,31,28,9,9,14,9,9,9,28,31,31,28,14,9,28,38,38,38,37,34,9,0,0,0,0,38,36,38,36,38,38,38,
             38,38,1,1,1,1,1,1,1,1,1,1,1,1,28,31,31,31,31,31,31,31,31,31,31,31,0,0,31,31,31,31,31,31,31,31,31,3,0,8,38,3,3,3,3,3,28,28,28,28,9,17,1,1,14,0,0,0,17,0,12,0,28,31,31,31,28,1,1,9,14,9,9,1,1,9,9,1,9,9,9,9,1,1,0,36,36,1,1,1,17,1,14,1,9,9,9,9,9,17,17,17,17,9,14,14,14,9,8,8,28,31,31,28,9,17,9,17,9,8,8,28,28,9,17,9,28,31,31,28,14,0,17,0,12,0,0,17,0,12,0,17,0,31,31,28,14,9,9,17,9,1,1,34,34,34,34,34,34,34,34,34,34,34,34,34,34,1,1,1,1,9,14,9,1,9,9,1,14,1,1,1,14,1,14,1,17,8,0,8,28,31,31,31,31,31,3,38,28,9,9,9,9,9,1,24,24,24,24,24,9,1,25,25,25,25,25,25,38,25,3,31,31,31,31,28,9,17,17,17,9,12,12,9,14,14,14,14,9,9,9,9,9,9,9,0,0,0,0,38,38,38,38,38,38,38,
             38,36,31,28,9,19,20,10,19,20,10,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,1,1,9,28,31,31,31,31,34,34,34,34,7,7,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,1,1,1,12,1,9,1,28,31,31,28,9,9,14,9,14,19,19,19,14,9,14,9,28,38,38,28,9,12,1,38,38,9,17,9,14,9,17,9,9,9,9,9,12,9,9,12,9,9,17,9,14,9,1,1,31,36,36,36,30,27,9,9,9,1,1,34,34,34,34,34,36,36,36,31,14,1,14,1,17,1,1,17,1,17,1,17,1,9,9,27,30,34,37,37,9,9,12,14,12,9,28,36,36,36,36,36,36,31,28,28,28,9,9,28,36,36,36,36,36,36,36,36,36,36,36,31,28,11,11,11,11,4,4,4,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,4,4,4,4,38,38,38,38,38,38,38,
+            //custom rooms for underworld dark rooms
+            38,38,9,9,9,9,9,8,8,9,9,9,9,9,38,38,
         ],
         
         rooms_as_enemies :
         [
+
             [],
             [3,3,3,3],
+            [4,4,4,4],
             [16,16,16],
             [4,4,4,4,4,4],
             [3,3,4,4,8,9],
+            [3,3,4,4,7,7],
             [3],
             [16,16,16],
             [],
@@ -984,6 +1064,145 @@ function init(){
 
         ],
 
+        rooms_as_secrets : [
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [ [0, 4, 1, 0, 0] ],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+        ],
+
         lastTime : Date.now(),
         now : Date.now(),
         dt : 0,
@@ -1002,13 +1221,14 @@ function init(){
             underworld_tiles : new Image(),
         },
         room : {
-            anemy_pool : {},
+            enemy_pool : [],
             enemy_pool_index : 0,
             enemy_spawn_index : 0,
             coordinates : { x : 7, y : 7},
             sprite_map : [],
             collision_map : [],
             enemies : [],
+            secrets : [],
         }
     };
     render_info.ctx = render_info.canvas.getContext("2d");
@@ -1079,42 +1299,56 @@ function init(){
     })();
 };
 // for populating the enemy entities
-function Enemy ( damage, health, movement_frequency, movement_pattern, can_despawn, spawn_pattern, sprite_index,){ 
+function Enemy (name, index, { damage, health, movement_frequency, spawn_frequency, movement_pattern, animation_info}){ 
+    this.name = name;
+    this.index = index;
     this.damage = damage;
     this.health = health;
     this.movement_frequency = movement_frequency;
-    this.movement_pattern = movement_pattern;
+    this.spawn_frequency = 1;//spawn_frequency;
+    this.movement_pattern =  [
+        {x:1,y:null},
+        {x:null,y:0},
+        {x:null,y:1},
+        {x:0,y:null},
+        {x:null,y:null},
+    ];  //movement_pattern;
+    this.collisions = {
+        enemy_out_of_bounds : false,
+        enemy_with_map : false,
+    }
     this.animation_info = {
-        position: null,
-        // {
-        //     x : null,
-        //     y : null,
-        // },
+        position: 
+        {
+            x : null,
+            y : null,
+        },
         potential_position: {
             x : null,
             y : null,
         },
-        walking_speed : null ,
+        walking_speed : animation_info.walking_speed ,
         walking_index : 0,
         direction : {
-            x: null,
-            y: null,
+            x: animation_info.direction.x,
+            y: animation_info.direction.y,
         },
         dimensions : {
             w : 16,
             h : 16,
         },
+        number_of_sprites : animation_info.number_of_sprites,
         is_attacking : false,
-        is_moving : false,
+        is_moving : true,
         is_flying : false,
-        can_despawn : can_despawn,
+        //can_despawn : can_despawn,
         //spawn pattern
         // 0 randomly on land
         // 1 randomly on sea
         // 2 randomly from edge
         // 3 at specific position relative to player
-        spawn_pattern : spawn_pattern,
-        sprite_index : sprite_index,
+        spawn_pattern : animation_info.spawn_pattern,
+        sprite_index : animation_info.sprite_index,
     };
     return this;
 }
@@ -1133,6 +1367,7 @@ function main() {
 function update(dt){
     handle_passage_of_time(dt);
     handle_input();
+    update_enemies();
     determine_collisions();
     resolve_collisions();
 };
@@ -1166,23 +1401,29 @@ function update(dt){
         //   check for death
         //   check for animation progress
         //   check for incoming damage
+        update_link();
         // update_items();
     };
-        function check_for_dead_foes(){
-            let new_enemy_arr = render_info.room.enemies;
-            for ( let i in render_info.room.enemies ){
-                if ( render_info.room.enemies[i].health <= 0 ){
-                    new_enemy_arr = new_enemy_arr.filter((x,n)=>n!=i);
-                }
+    function check_for_dead_foes(){
+        let new_enemy_arr = render_info.room.enemies;
+        for ( let i in render_info.room.enemies ){
+            if ( render_info.room.enemies[i].health <= 0 ){
+                new_enemy_arr = new_enemy_arr.filter((x,n)=>n!=i);
             }
-            render_info.room.enemies = new_enemy_arr;
-        };
-        function check_for_dead_link(){}
-        function check_for_expired_weapons(){}
-        function check_for_expired_loot(){}
-        function check_for_expired_items(){}
-        function progress_animation_paths(){}
-        function progress_logic_paths(){}
+        }
+        render_info.room.enemies = new_enemy_arr;
+    };
+    function check_for_dead_link(){}
+    function check_for_expired_weapons(){}
+    function check_for_expired_loot(){}
+    function check_for_expired_items(){}
+    function progress_animation_paths(){}
+    function progress_logic_paths(){}
+    function update_link(){
+        if (link.invulnerabile){
+            (link.invulnerability_timer == 0 ) ? link.invulnerabile = false : link.invulnerability_timer--;
+        }
+    };
     function handle_input(){
         if (input.isDown('SPACE') && !link.animation_info.is_attacking){
             if (link.weapon !== null){
@@ -1226,12 +1467,15 @@ function update(dt){
             link_with_doorway : false,
             out_of_bounds : false,
             weapon_with_enemy : false,
+            enemy_out_of_bounds : false,
+            enemy_with_map : false,
+            link_with_cave : false,
         }   
         // change to use links direction to check for collision with box ahead
-        if ( link.animation_info.potential_position.x > 16 || link.animation_info.potential_position.x < 1 || link.animation_info.potential_position.y > 11 || link.animation_info.potential_position.y < 1 ){
+        if ( Math.round(link.animation_info.potential_position.x) > 15 || Math.round(link.animation_info.potential_position.x) < 0 || Math.round(link.animation_info.potential_position.y) > 10 || Math.round(link.animation_info.potential_position.y) < 0 ){
             collisions.out_of_bounds = true;
         }
-        else if (render_info.room.collision_map[Math.floor(link.animation_info.potential_position.x-1)][Math.floor(link.animation_info.potential_position.y-1)] == 1) {
+        else if (render_info.room.collision_map[Math.round(link.animation_info.potential_position.x)][Math.round(link.animation_info.potential_position.y)] == 1) {
             collisions.link_with_map = true;
         }
         //collision with sword strike
@@ -1239,25 +1483,19 @@ function update(dt){
             let weapon = link.weapon;
             for ( let ii in render_info.room.enemies ){
                 let enemy = render_info.room.enemies[ii];
-                let condition = collides( 
-                    weapon.position.x*16 /*+ weapon.hitbox_offset.x*/, 
-                    weapon.position.y*16 /*+ weapon.hitbox_offset.y*/, 
-                    weapon.position.x*16 /*+ weapon.hitbox_offset.x*/ + weapon.hitbox_dimensions.w, 
-                    weapon.position.y*16 /*+ weapon.hitbox_offset.y*/ + weapon.hitbox_dimensions.h,
-                    enemy.animation_info.position.x*16,
-                    enemy.animation_info.position.y*16,
-                    enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
-                    enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,
-                );
-                console.log([
-                    weapon.position.x*16 /*+ weapon.hitbox_offset.x*/, 
-                    weapon.position.y*16 /*+ weapon.hitbox_offset.y*/, 
-                    weapon.position.x*16 /*+ weapon.hitbox_offset.x*/ + weapon.hitbox_dimensions.w, 
-                    weapon.position.y*16 /*+ weapon.hitbox_offset.y*/ + weapon.hitbox_dimensions.h,
-                    enemy.animation_info.position.x*16,
-                    enemy.animation_info.position.y*16,
-                    enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
-                    enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,]);
+                let condition = false;
+                if (enemy.animation_info.position.x != null){
+                    condition = collides( 
+                        weapon.position.x*16, 
+                        weapon.position.y*16, 
+                        weapon.position.x*16 + weapon.hitbox_dimensions.w, 
+                        weapon.position.y*16 + weapon.hitbox_dimensions.h,
+                        enemy.animation_info.position.x*16,
+                        enemy.animation_info.position.y*16,
+                        enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
+                        enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,
+                    );
+                }
                 if ( condition ){
                     if (collisions.weapon_with_enemy == false){
                         collisions.weapon_with_enemy = [];
@@ -1267,8 +1505,50 @@ function update(dt){
                 }
             }
         }
+        for ( let i in render_info.room.enemies){
+            let enemy = render_info.room.enemies[i];
+            let condition = collides( 
+                link.animation_info.position.x*16,
+                link.animation_info.position.y*16,
+                link.animation_info.position.x*16 + link.animation_info.hitbox_dimensions.w, 
+                link.animation_info.position.y*16 + link.animation_info.hitbox_dimensions.h,
+                enemy.animation_info.position.x*16,
+                enemy.animation_info.position.y*16,
+                enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
+                enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,
+            );
+            if (condition){
+                collisions.link_with_enemy = true;
+                break;
+            }
+        }
+        for ( let i in render_info.room.enemies){
+            if ( render_info.room.enemies[i].animation_info.potential_position.x != null ){
+                if ( Math.round(render_info.room.enemies[i].animation_info.potential_position.x) > 15 || Math.round(render_info.room.enemies[i].animation_info.potential_position.x) < 0 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) > 10 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) < 0 ){
+                    collisions.enemy_out_of_bounds = true;
+                    render_info.room.enemies[i].collisions.enemy_out_of_bounds = true;
+                }
+                else if (render_info.room.collision_map[Math.round(render_info.room.enemies[i].animation_info.potential_position.x)][Math.round(render_info.room.enemies[i].animation_info.potential_position.y)] == 1) {
+                    collisions.enemy_with_map = true;
+                    render_info.room.enemies[i].collisions.enemy_with_map = true;
+                }
+            }
+        }
+        for ( let i in render_info.room.secrets ){
+            let secret = render_info.room.secrets[i];
+            if (secret[0] == 0){
+                if (Math.round(link.animation_info.position.x) == secret[1] && Math.round(link.animation_info.position.y) == secret[2]){
+                    render_info.overworld = false;
+                    render_info.underworld_viewport = { x : secret[3], y : secret[4]};
+                    collisions.link_with_cave = true;
+                    link.animation_info.potential_position = { x : 7, y : 10 };
+
+                }
+            }
+        }
     }
     function resolve_collisions(){
+        //console.log ( render_info.room.enemies.length, render_info.room.enemy_pool.length);
         if ( !collisions.link_with_map ){
             link.animation_info.position.x = link.animation_info.potential_position.x;
             link.animation_info.position.y = link.animation_info.potential_position.y;
@@ -1280,28 +1560,65 @@ function update(dt){
             link.animation_info.potential_position.y = link.animation_info.position.y;
         }
         if(collisions.out_of_bounds){
-            if (link.animation_info.potential_position.x < 1 ){
-                link.animation_info.potential_position.x = link.animation_info.position.x = 16;   
+            if (Math.round(link.animation_info.potential_position.x) < 0 ){
+                link.animation_info.potential_position.x = link.animation_info.position.x = 15;   
                 render_info.viewport.x -= 1;
             }
-            else if (link.animation_info.potential_position.x > 16 ){
-                link.animation_info.potential_position.x = link.animation_info.position.x = 1;  
+            else if (Math.round(link.animation_info.potential_position.x) > 15){
+                link.animation_info.potential_position.x = link.animation_info.position.x = 0;  
                 render_info.viewport.x += 1;  
             }
-            else if (link.animation_info.potential_position.y < 1 ){
-                link.animation_info.potential_position.y = link.animation_info.position.y = 11;   
+            else if (Math.round(link.animation_info.potential_position.y) < 0){
+                link.animation_info.potential_position.y = link.animation_info.position.y = 10;   
                 render_info.viewport.y -= 1; 
             }
-            else if (link.animation_info.potential_position.y > 11 ){
-                link.animation_info.potential_position.y = link.animation_info.position.y = 1;   
+            else if (Math.round(link.animation_info.potential_position.y) > 10 ){
+                link.animation_info.potential_position.y = link.animation_info.position.y = 0;   
                 render_info.viewport.y += 1; 
             }
+            render_info.room.enemy_spawn_index=0;
+            render_info.room.enemies=[];
+            render_info.room.enemiy_pool=[];
         } 
         if ( collisions.weapon_with_enemy ){
             for (let i in collisions.weapon_with_enemy){
                 collisions.weapon_with_enemy[i]['enemy'].health -= collisions.weapon_with_enemy[i]['weapon'].damage;
             }
         }
+        if ( collisions.link_with_enemy ){
+            if (!link.invulnerabile){
+                link.health--;
+                link.invulnerabile = true;
+                link.invulnerability_timer = 60;
+                console.log('hello');
+            }
+        };
+        if ( collisions.enemy_out_of_bounds ){
+            for ( let i in render_info.room.enemies ){
+                if ( render_info.room.enemies[i].collisions.enemy_out_of_bounds ){
+                    render_info.room.enemies[i].collisions.enemy_out_of_bounds = false;
+                    render_info.room.enemies[i].animation_info.potential_position.x = null;render_info.room.enemies[i].animation_info.position.x = null; 
+                    render_info.room.enemies[i].animation_info.potential_position.y = null;render_info.room.enemies[i].animation_info.position.y = null;    
+                    render_info.room.enemy_pool.push(render_info.room.enemies[i]);
+                
+                }
+            }
+            render_info.room.enemies = render_info.room.enemies.filter( (el,n) => {return el.animation_info.position.x!=null ;}); 
+        }
+        if ( collisions.enemy_with_map ){
+            for ( let i in render_info.room.enemies ){
+                render_info.room.enemies[i].collisions.enemy_with_map = false;
+                render_info.room.enemies[i].animation_info.potential_position.x = render_info.room.enemies[i].animation_info.position.x;
+                render_info.room.enemies[i].animation_info.potential_position.y = render_info.room.enemies[i].animation_info.position.y;    
+            }
+        }
+        for ( let i in render_info.room.enemies ){
+            if ( !(render_info.room.enemies[i].collisions.enemy_with_map||render_info.room.enemies[i].collisions.enemy_out_of_bounds||render_info.room.enemies[i].animation_info.potential_position.x==null) ){
+                render_info.room.enemies[i].animation_info.position.x = render_info.room.enemies[i].animation_info.potential_position.x;
+                render_info.room.enemies[i].animation_info.position.y = render_info.room.enemies[i].animation_info.potential_position.y;
+            }
+        
+        }   
     }
     function collides(x, y, r, b, x2, y2, r2, b2) {
         return !(r <= x2 || x > r2 ||
@@ -1309,16 +1626,53 @@ function update(dt){
     }    
     function update_enemies ( dt ) {
         let room = render_info.room;
+        if ( room.enemy_spawn_index == 0 && room.enemy_pool.length == 0 )
+            initialize_room_enemies();
+        if ( room.enemy_pool.length != 0){
+            for (let i in room.enemy_pool){
+                if ( render_info.now % room.enemy_pool[i].spawn_frequency < 10){
+                    room.enemies.push(room.enemy_pool[i]);
+                    room.enemy_pool = room.enemy_pool.filter( (el,n) => n!=i ); 
+                    break;
+                }
+            }
+        }
         //for each enemy in the room
         for ( let i in room.enemies ) {
             //if the enemy has been spawned
-            if ( room.enemies[i].position != null ) {
+            if ( room.enemies[i].animation_info.position.x != null ) {
                 if ( room.enemies[i].animation_info.is_moving ) {
                     //if the enemies in the room are moving, 
                     //update their position and progress their point in their movement pattern
+                    
+                    if (room.enemies[i].animation_info.direction.y == 0) { 
+                        room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y + room.enemies[i].animation_info.walking_speed * render_info.dt;
+                    } else 
+                    if (room.enemies[i].animation_info.direction.y == 1) { 
+                        room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y - room.enemies[i].animation_info.walking_speed * render_info.dt;
+                    } else 
+                    if (room.enemies[i].animation_info.direction.x == 1) { 
+                        room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x + room.enemies[i].animation_info.walking_speed * render_info.dt;
+                    } else 
+                    if (room.enemies[i].animation_info.direction.x == 0) { 
+                        room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x - room.enemies[i].animation_info.walking_speed * render_info.dt;
+                    }
+                    room.enemies[i].animation_info.walking_index++;
+                    if (room.enemies[i].animation_info.walking_index % room.enemies[i].movement_frequency == 0 ){
+                        room.enemies[i].animation_info.is_moving = false;
+                    }
                 } else {
-                    //if the enemies in the room arent moves, 
+                    //if the enemies in the room arent moving, 
                     //randomly determine if they will start moving during this frame
+                    if (room.enemies[i].movement_pattern != null){
+                        room.enemies[i].animation_info.direction = room.enemies[i].movement_pattern[
+                            Math.floor(
+                                Math.random() * Math.floor(room.enemies[i].movement_pattern.length-1)
+                            )
+                        ];
+                        room.enemies[i].animation_info.is_moving = true;
+
+                    }
                 }
                 if ( !room.enemies[i].animation_info.is_attacking ) {
                     //if the enemies in the room are not attacking, 
@@ -1329,6 +1683,27 @@ function update(dt){
                 }
             } else {
                 //if the enemy hasn't been spawned yet
+                let entries = fetch_entry_points().filter(
+                    (el)=>{
+                        return ( el.x!=Math.round(link.animation_info.position.x) && el.y!=Math.round(link.animation_info.position.y) )
+                    }  
+                );
+                if (entries.length != 0){
+                    room.enemies[i].animation_info.position = entries[
+                        Math.floor(
+                            Math.random() * Math.floor(
+                                entries.length-1
+                            )
+                        )
+                    ];
+                    room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x;
+                    room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y;
+                    room.enemy_spawn_index++;
+                    room.enemies[i].animation_info.direction = 
+                        (room.enemies[i].animation_info.potential_position.x == 0 ) ? {x:1, y:null} :
+                            (room.enemies[i].animation_info.potential_position.x == 10 ) ? {x:0, y:null} :
+                                (room.enemies[i].animation_info.potential_position.y == 0 ) ? {x:null, y:0} : {x:null, y:1};  
+                }
             }
             
         }
@@ -1353,6 +1728,19 @@ function update(dt){
 
 
     }
+    function fetch_entry_points(){
+        let entry_points = [];
+        for (let x in render_info.room.collision_map){
+            for (let y in render_info.room.collision_map[x]){
+                if (x == 0 || x == 15 || y == 0 || y == 10 ){
+                    if (render_info.room.collision_map[x][y] == 0){
+                        entry_points.push({'x':x-0,'y':y-0});
+                    }
+                }
+            }
+        }
+        return entry_points;
+    }
 //render //////////////////////////////////////////
 function render(){
     draw_screen();
@@ -1361,7 +1749,9 @@ function render(){
     draw_enemies();
 }
     function draw_screen(){
-        let screen = get_screen_tiles(render_info.viewport.x, render_info.viewport.y);
+        let screen = ( render_info.overworld ) 
+            ? get_screen_tiles(render_info.viewport.x, render_info.viewport.y)
+            : get_screen_tiles(render_info.underworld_viewport.x, render_info.underworld_viewport.y + 8);
         let viewport_w = 16; //tiles
         let viewport_h = 11; //tiles
         let border_offset = 1;
@@ -1372,18 +1762,35 @@ function render(){
             }
         }
     }
-    function initialize_room__enemies(){
-        render_info.room.enemies = [];
-        for (let i in render_info.room.enemie_pool){
-            render_info.room.enemies.push(
-                new Enemy({...entities.enemies[
-                    index_to_enemy_name_mapping[
-                        render_info.room.enemie_pool[i]
+    function initialize_room_enemies(){
+        render_info.room.enemy_pool = [];
+        let temp = render_info.rooms_as_enemies[render_info.viewport.x-1 + render_info.viewport.y*16 ];
+        for (let i in temp ){
+            render_info.room.enemy_pool.push(
+                //new Enemy(
+                // Object.assign(
+                //     {},
+                //     entities.enemies[
+                //         render_info.index_to_enemy_name_mapping[
+                //             temp[i]
+                //         ]
+                //     ]
+                // )
+                new Enemy(
+                    render_info.index_to_enemy_name_mapping[
+                        temp[i]
+                    ],
+                    i,
+                    {
+                        ...entities.enemies[
+                            render_info.index_to_enemy_name_mapping[
+                                temp[i]
+                            ]
                         ]
-                    ]
-                })
+                    }
+                )
             );
-        }
+        } 
 
     }
     function get_screen_tiles(screen_x,screen_y){
@@ -1410,13 +1817,20 @@ function render(){
             )
         }
         render_info.room.collision_map = Array.from(collision_map);
-        render_info.room.enemie_pool = Array.from( render_info.rooms_as_enemies[ screen_x + ( screen_y * 16 ) ] );
+        
+        render_info.room.secrets = render_info.rooms_as_secrets[ screen_x + screen_y * 16 ]
+
+        for (let i in render_info.room.secrets){
+            if (render_info.room.secrets[i][0] == 0){
+                render_info.room.collision_map[render_info.room.secrets[i][1]][render_info.room.secrets[i][2]] = 0;
+            }
+        }
         return screen;
     }
     function display_tile(tile_number, destination_x, destination_y){
         let x = tile_number % 20;
         let y = (tile_number - x) / 20; 
-        render_info.ctx.drawImage(render_info.sprite_sheets.overworld_tiles, x*16, y*16, 16, 16, destination_x*16, destination_y*16, 16, 16);
+        render_info.ctx.drawImage(render_info.sprite_sheets.overworld_tiles, x*16+1, y*16+1, 14, 14, destination_x*16, destination_y*16, 16, 16);
     }
     function draw_enemies(){
         let sprite_height = 16; //pixels
@@ -1425,29 +1839,40 @@ function render(){
         let x_offset = 0;
         for ( let i in  render_info.room.enemies ){
             let enemy = render_info.room.enemies[i];
+            let offsets = [0,0,0,0];
+            switch (enemy.animation_info.number_of_sprites){
+                case 2: {
+                    offsets = [0,1,0,1];break;}
+                case 4: {
+                    offsets = [0,1,0,1];break;}
+                case 5: {
+                    offsets = [2,2,2,2];break;}
+                case 8: {
+                    offsets = [0,2,1,3];break;}
+            }
             if ( enemy.health > 0 ){
                 if (enemy.animation_info.direction.y == 0) {
-                    x_offset = 0;
+                    x_offset = offsets[0];
                 } else 
                 if (enemy.animation_info.direction.y == 1) {
-                    x_offset = 2;
+                    x_offset = offsets[1];
                 } else 
                 if (enemy.animation_info.direction.x == 0) {
-                    x_offset = 1;
+                    x_offset = offsets[2];
                 } else 
                 if (enemy.animation_info.direction.x == 1) {
-                    x_offset = 3;
+                    x_offset = offsets[3];
                 } else {
                     //spawn enemy with null position onto screen
                 }
                 render_info.ctx.drawImage(
                     render_info.sprite_sheets.enemies, 
-                    ( enemy.animation_info.sprite_index.x + x_offset ) * 16, 
-                    ( enemy.animation_info.sprite_index.y + ( Math.floor( enemy.animation_info.walking_index / 10 ) % 2 ) )*16, 
+                    ( enemy.animation_info.sprite_index.x + x_offset ) * 30, 
+                    ( enemy.animation_info.sprite_index.y + ( Math.floor( enemy.animation_info.walking_index / 10 ) % 2 ) )*30, 
                     16, 
                     16, 
-                    enemy.animation_info.position.x*16-8 + 16, 
-                    enemy.animation_info.position.y*16-8 + 16, 
+                    enemy.animation_info.position.x*16 +16, 
+                    enemy.animation_info.position.y*16 +16, 
                     16, 
                     16, 
                 );
@@ -1477,8 +1902,8 @@ function render(){
         if (link.animation_info.is_attacking){
             link.animation_info.current_attack_frame ++;
             let sword_position = {x:null,y:null};
-            sword_position.y = link.animation_info.position.y*16-8;
-            sword_position.x = link.animation_info.position.x*16-8;
+            sword_position.y = link.animation_info.position.y*16+sprite_height;
+            sword_position.x = link.animation_info.position.x*16+sprite_width;
             let sword_extension = 0;
             if ( link.animation_info.current_attack_frame < link.animation_info.wind_up_attack_frames ){
                 sword_extension = link.animation_info.current_attack_frame * 12 / link.animation_info.wind_up_attack_frames ;
@@ -1508,12 +1933,16 @@ function render(){
             }
             if(link.animation_info.is_attacking){
                 link.weapon.position = {x:sword_position.x/16, y:sword_position.y/16};
-                render_info.ctx.drawImage(render_info.sprite_sheets.link, 3*16, y_offset*16, 16, 16, Math.floor(sword_position.x) + border_offset, Math.floor(sword_position.y) + border_offset, 16, 16);
+                render_info.ctx.drawImage(render_info.sprite_sheets.link, 3*16, y_offset*16, 16, 16, Math.round(sword_position.x) + border_offset, Math.round(sword_position.y) + border_offset, 16, 16);
                 
             }
-            render_info.ctx.drawImage(render_info.sprite_sheets.link, 2*16, y_offset*16, 16, 16, link.animation_info.position.x*16-8 + border_offset, link.animation_info.position.y*16-8 + border_offset, 16, 16);
+            if (link.invulnerability_timer % 3 == 0){
+                render_info.ctx.drawImage(render_info.sprite_sheets.link, 2*16, y_offset*16, 16, 16, link.animation_info.position.x*16+sprite_width + border_offset, link.animation_info.position.y*16+sprite_height + border_offset, 16, 16);
+            }
         } else {
-            render_info.ctx.drawImage(render_info.sprite_sheets.link, ( ( Math.floor( link.animation_info.walking_index / 10 ) % 2 ) )*16, y_offset*16, 16, 16, link.animation_info.position.x*16-8 + border_offset, link.animation_info.position.y*16-8 + border_offset, 16, 16);
+            if (link.invulnerability_timer % 3 == 0){
+                render_info.ctx.drawImage(render_info.sprite_sheets.link, ( ( Math.floor( link.animation_info.walking_index / 10 ) % 2 ) )*16, y_offset*16, 16, 16, link.animation_info.position.x*16+sprite_width + border_offset, link.animation_info.position.y*16+sprite_height + border_offset, 16, 16);
+            }
         }
     }
 

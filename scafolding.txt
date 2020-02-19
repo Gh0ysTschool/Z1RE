@@ -1,0 +1,159 @@
+-> initialization logic 
+    -> rendering setup
+    -> data decompression
+    -> entity hydration
+        -> link
+        -> overworld_map
+        -> underworld_map
+        -> room_data
+            -> collision_map
+            -> tile_map
+            -> starting_hostile_pool
+            -> special_tiles
+            -> session_specific
+                -> current_hostile_pool
+                -> spawned_hostiles
+                -> expired_hostiles
+                -> spawned_items
+                -> expired_items
+    -> game loop
+        -> track progression of time
+        -> render logic
+            -> environment rendering
+                -> get_state
+                -> get_room
+                    -> get-columns
+                    -> get_tiles
+                    -> construct_room
+                    OR
+                    -> return current_room
+            -> link rendering
+                -> get_state
+                -> get_sprite
+            -> hostiles rendering
+                -> get_state
+                -> get_sprite
+            -> items rendering
+                -> get_state
+                -> get_sprite
+        -> collision logic
+            -> fetch_entities
+            -> detect_collisions
+            -> resolve_collisions
+        -> spawning logic
+        -> user input response logic
+        -> entity creation logic
+        -> entity expiration logic
+        -> ai movement logic
+
+
+
+        -> environment logic
+            -> environment rendering
+                -> get_state
+                -> get_room
+                    -> get-columns
+                    -> get_tiles
+                    -> construct_room
+                    OR
+                    -> return current_room
+        -> link logic
+            -> link rendering
+                -> get_state
+                -> get_position
+                -> get_sprite
+                -> draw_link
+                IF is_attacking
+                -> draw sword
+                if is_burning
+                -> draw_candle
+                -> draw_flames
+                if is_invulnerable
+                -> progress_flicker
+            -> user_input handling
+                -> handle_movement
+                    -> check_collision
+                        -> out-of-bounds
+                            -> shift_screen
+                            OR
+                            -> reset_position
+                        -> walls
+                            -> prevent_movement
+                        -> doorways
+                            -> transport_to_room
+                        -> enemies
+                            -> recieve_damage
+                            -> apply_temporary_invulnerability
+                        -> items
+                            -> check_invetory_limits
+                            -> add_to_inventory
+                            -> mark_item_for_expiration
+                    -> alter_approved_position
+                    -> progress_movement_frame_counter
+                -> handle_attack
+                    IF unspawned
+                    -> set_is_attacking
+                    -> spawn_sword
+                    IF spawned
+                    -> progress_sword_arc
+                    -> check_collision
+                        -> hostiles
+                        IF not in damaged_entity_list
+                        -> apply_damage
+                        -> add_hostile_to_damaged_entity_list
+                    IF reached_end_of_progression
+                    -> despawn_sword
+                    -> clear damaged_entity_list
+                    -> start_attack_cooldown_timer
+                -> handle_item_usage
+                    -> run_item_specific_usage_script
+                -> handle_interaction
+                    -> run_entity_specific_interaction_script
+                -> handle_expiration
+        -> hostiles logic
+            -> hostile rendering
+                -> get_state
+                -> get_sprite
+                -> draw hostile
+                IF is_invulnerable
+                -> progress_flicker
+            -> handle hostile movement
+                IF movement_timer_expended
+                -> fetch_next_move
+                -> check_collision
+                    -> out-of-bounds
+                        -> alter_to_in_bounds_equivalent
+                -> alter_position
+                IF attack_cooldown_timer expired
+                -> check_collision
+                    -> link
+                        -> apply_damage
+                        -> apply_temporary_invulnerability
+                OR
+                -> spawn_projectile
+            -> handle projectile 
+                -> projectile rendering
+                    -> get_state
+                    -> get_sprite
+                    -> draw hostile
+                -> check_collision
+                    -> link
+                        -> apply_damage
+                        -> apply_temporary_invulnerability
+                        -> despawn_projectile
+                    -> wall
+                        -> despawn_projectile
+                    -> out-of-bounds
+                        -> despawn_projectile
+                -> handle movement
+                    -> progress_movement_in_direction_launched
+                    OR
+                    -> progress_movement_towards_link
+                    OR
+                    -> progress_movement_towards_link_with_delayed_tracking
+                -> handle_expiration
+        -> items logic
+
+entity
+    collision_catagories (item/wall/doorway/link/hostile/damage_source/trap)
+    collision_responses

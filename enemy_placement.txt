@@ -465,3 +465,35 @@ initial tile w/ collision, replacement tile w/ collision w/ destination, coordin
     replacement_tile : { x, y, index, collision, on_collide_destination},
     replacement_trigger : 0-5,
 }
+
+
+
+
+
+flags [
+    [0 /*cave*/, ? /*x*/, ? /*y*/, ? /*cave_destination*/], 
+    [1 /*switch*/], 
+    [2 /*flute*/], 
+    [3 /*burnable*/],
+    [3 /*bombable*/],
+]
+cave_destinations [
+    /*dangerous_to_go_alone*/,
+    /*dungeon_1*/,
+    /*dungeon_2*/,
+    /*dungeon_3*/,
+    /*dungeon_4*/,
+    /*dungeon_5*/,
+    /*dungeon_6*/,
+    /*dungeon_7*/,
+    /*dungeon_8*/,
+    /*dungeon_9*/,
+    /**/,
+    /**/,
+
+]
+column data
+[61,61,24,24,24,24,24,24,24,24,61,61]
+[61,61,24,24,24,24,24,24,24,24,24,24]
+cave column data
+[0,0,256,256,256,256,256,257,257,256,256,256,256,256,0,0]

@@ -1,0 +1,31 @@
+FEATURES
+ENVIRONMENT
+[✔]/* #E01 */ raw map tile data decompression
+[✔]/* #E02 */ raw map collision data decompression
+[✔]/* #E03 */ display single tile
+[✔]/* #E04 */ display room of tiles
+[✔]/* #E08 */ detect collision between two entities
+[ ]/* #E09 */ tile labels (water, enterable, burnable (I, II), bombable)
+[ ]/* #E10 */ conditional collision (swim tiles, climb tiles, fall tiles)
+[ ]/* #E11 */ transport tiles (doorways)
+LINK
+[✔]/* #L01 */ overlay link
+[✔]/* #L02 */ move link
+[✔]/* #L03 */ animate link's movement
+[✔]/* #L04 */ de/generate link's sword (entity)
+[✔]/* #L05 */ swing link's sword w/ collision 
+[✔]/* #L06 */ apply damage w/ link's sword
+[ ]/* #L07 */ end game upon link's death
+HOSTILES
+[✔]/* #H01 */ overlay enemy
+[ ]/* #H02 */ spawn enemy from a limited pool of enemies
+[✔]/* #H03 */ spawn enemy @ enterable tile on the edge of the screen at random time intervals
+[✔]/* #H04 */ semirandomly move enemies according to their movement patterns 
+[✔]/* #H05 */ apply damage w/ enemy collision
+ITEMS
+[ ]/* #I06 */ spawn loot
+[ ]/* #I07 */ spawn loot on enemy death from loot tables
+[ ]/* #I08 */ run item script on activation
+[ ]/* #I09 */ change tiles w/ activated item scripts on met conditionals 
+[ ]/* #I10 */ place bomb w/ timer & blinking animation
+[ ]/* #I11 */ blow up bomb & apply damage in radius
