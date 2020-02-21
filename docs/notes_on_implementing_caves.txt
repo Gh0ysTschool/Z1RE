@@ -1,0 +1,21 @@
+init room
+check overworld flag
+    get secrets
+        cave entrance
+        npcs
+    get items
+check_collisions
+    cave entrance
+    items
+    attack_npc
+resolve_collisions
+    teleport to underworld coordinates
+    purchase item / pick up item
+    remove npc / flip gameflag for murder
+link
+    underworld coordinates, seperate from overworld coordinates
+draw_map
+    check for overworld flag
+handle_input
+    check overworld flag
+    x
