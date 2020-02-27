@@ -1,6 +1,26 @@
 let render_info, entities, link, collisions;
 // initialize gamestate /////////////////////////////
 function init(){
+    compressed_data = {
+        enemy_data_string : 
+            '/n'+"octorock,      o,1,1,60,2,2,8, 0, 0,"+
+            '/n'+"tektite,       o,1,1,40,2,2,2, 8, 6,"+
+            '/n'+"tektite,       b,1,1,40,2,2,2, 9, 6,"+
+            '/n'+"peahat,        o,1,2,40,2,2,2,10,10,"+
+            '/n'+"armos,         o,1,3,40,2,2,2,12, 4,"+
+            '/n'+"centaur,       o,1,4,40,2,2,8, 0, 8,"+
+            '/n'+"centaur,       b,1,6,40,2,2,8, 4, 8,"+
+            '/n'+"ghost,         m,1,9,40,2,2,4,10, 4,"+
+            '/n'+"ghost,         s,1,9,40,2,2,4,10, 4,"+
+            '/n'+"leveler,       o,1,2,40,2,2,5, 8,10,"+
+            '/n'+"leveler,       b,1,4,40,2,2,5, 8,11,"+
+            '/n'+"moblin,        o,1,2,40,2,2,8, 0, 3,"+
+            '/n'+"moblin,        b,1,2,60,2,2,8, 4, 3,"+
+            '/n'+"octorock,      b,1,2,40,2,2,8, 4, 0,"+
+            '/n'+"zora,          o,1,2,40,2,2,4, 4,10,"+
+            '/n'+"zora,          b,1,2,40,2,2,4, 4,10,"+
+            '/n'+"boulder,       n,n,n,n,n,n,n,n,n,",
+    };
     link = {
         health : 3,
         invulnerabile : false,
@@ -53,520 +73,7 @@ function init(){
         inventory : [],
     };
     entities = {
-        enemies : {
-            'octorock_orange' : {
-                damage : 1,
-                health : 1,
-                movement_pattern : [
-                    {x:1,y:null},
-                    {x:null,y:0},
-                    {x:null,y:1},
-                    {x:0,y:null},
-                    {x:null,y:null},
-                ],
-                movement_frequency : 60,
-                spawn_frequency : 2,
-                animation_info : {
-                    position : null,
-                    // position: {
-                    //     x : 5,
-                    //     y : 8,
-                    // },
-                    potential_position : null,
-                    // potential_position: {
-                    //     x : 5,
-                    //     y : 8,
-                    // },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: 0,
-                        y: 0,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 8,
-                    sprite_index : { x : 0, y : 0 },
-                },
-            },
-            'tektite_orange' : {
-                damage : 1,
-                health : 1,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 2,
-                    sprite_index : { x : 8, y : 6 },
-                },
-            },
-            'tektite_blue' : {
-                damage : 1,
-                health : 1,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    sprite_index : { x : 9, y : 6 },
-                },
-            },
-            'peahat' : {
-                damage : 1,
-                health : 2,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    sprite_index : { x : 10, y : 10 },
-                },
-            },
-            'armos_orange' : {
-                damage : 1,
-                health : 3,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : null,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : null ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 2,
-                    sprite_index : { x : 12, y : 4 },
-                },
-            },
-            'centaur_orange' : {
-                damage : 1,
-                health : 4,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 8,
-                    sprite_index : { x : 0, y : 8 },
-                },
-            },
-            'centaur_blue' : {
-                damage : 1,
-                health : 6,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 8,
-                    sprite_index : { x : 4, y : 8 },
-                },
-            },
-            'ghost_master' : {
-                damage : 1,
-                health : 9,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 4,
-                    sprite_index : { x : 10, y : 4 },
-                },
-            },
-            'ghost_slave' : {
-                damage : 1,
-                health : 9,
-                movement_pattern : [
-                ],
-                                spawn_frequency : null,
-                movement_frequency : null,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : null ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 4,
-                    sprite_index : { x : 10, y : 4 },
-                },
-            },
-            'leveler_orange' : {
-                damage : 1,
-                health : 2,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 5,
-                    sprite_index : { x : 8, y : 10 },
-                },
-            },
-            'leveler_blue' : {
-                damage : 1,
-                health : 4,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 5,
-                    sprite_index : { x : 8, y : 11 },
-                },
-            },
-            'moblin_orange' : {
-                damage : 1,
-                health : 2,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 8,
-                    sprite_index : { x : 0, y : 3 },
-                },
-            },
-            'moblin_blue' : {
-                damage : null,
-                health : null,
-                movement_pattern : [
-                ],
-                                spawn_frequency : null,
-                movement_frequency : null,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : null ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    sprite_index : { x : 4, y : 3 },
-                },
-            },
-            // 'octorock_orange' : {
-            //     damage : null,
-            //     health : null,
-            //     movement_pattern : [
-            //     ],
-            //                     spawn_frequency : null,
-                movement_frequency : null,
-            //     animation_info : {
-            //         position: {
-            //             x : null,
-            //             y : null,
-            //         },
-            //         potential_position: {
-            //             x : null,
-            //             y : null,
-            //         },
-            //         walking_speed : null ,
-            //         walking_index : 0,
-            //         direction : {
-            //             x: null,
-            //             y: null,
-            //         },
-            //         dimensions : {
-            //             w : 16,
-            //             h : 16,
-            //         },
-            //         sprite_index : { x : null, y : null },
-            //     },
-            // },
-            'octorock_blue' : {
-                damage : 1,
-                health : 2,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 8,
-                    sprite_index : { x : 4, y : 0 },
-                },
-            },
-            'zora' : {
-                damage : 1,
-                health : 2,
-                movement_pattern : [
-                ],
-                spawn_frequency : null,
-                movement_frequency : 40,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : 2 ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    number_of_sprites : 4,
-                    sprite_index : { x : 4, y : 10 },
-                },
-            },
-            'boulder' : {
-                damage : null,
-                health : null,
-                movement_pattern : [
-                ],
-                                spawn_frequency : null,
-                movement_frequency : null,
-                animation_info : {
-                    position: {
-                        x : null,
-                        y : null,
-                    },
-                    potential_position: {
-                        x : null,
-                        y : null,
-                    },
-                    walking_speed : null ,
-                    walking_index : 0,
-                    direction : {
-                        x: null,
-                        y: null,
-                    },
-                    dimensions : {
-                        w : 16,
-                        h : 16,
-                    },
-                    sprite_index : { x : null, y : null },
-                },
-            },
-        },
+        enemies : decompress_enemy_data(compressed_data.enemy_data_string),
         rupees : {},
         items : {},
         weapons : {},
@@ -1404,8 +911,8 @@ function Enemy (name, index, { damage, health, movement_frequency, spawn_frequen
         walking_speed : animation_info.walking_speed ,
         walking_index : 0,
         direction : {
-            x: animation_info.direction.x,
-            y: animation_info.direction.y,
+            x: 0,//animation_info.direction.x,
+            y: 0,//animation_info.direction.y,
         },
         dimensions : {
             w : 16,
@@ -1421,7 +928,7 @@ function Enemy (name, index, { damage, health, movement_frequency, spawn_frequen
         // 1 randomly on sea
         // 2 randomly from edge
         // 3 at specific position relative to player
-        spawn_pattern : animation_info.spawn_pattern,
+        spawn_pattern : 0,//animation_info.spawn_pattern,
         sprite_index : animation_info.sprite_index,
     };
     return this;
@@ -1445,431 +952,459 @@ function update(dt){
     determine_collisions();
     resolve_collisions();
 };
-    function handle_passage_of_time(){
-        check_for_dead_foes();
-        check_for_dead_link();
-        check_for_expired_weapons();
-        check_for_expired_loot();
-        check_for_expired_items();
-        progress_animation_paths();
-        progress_logic_paths();
-        // update_screen();
-        //  check for viewport change
-        //  check for visual effects active
-        //  check for pre-existing room info (tiles, collision, items, enemies)
-        //  
-        // update_enemies();
-        //   check for dead enemies
-        //   despawn dead enemies
-        //   check for despawning / respawning
-        //   despawn / respawn phasing enemies after check for phasing duration
-        //   check the room enemie pool for unspawned enemies
-        //   check out spawned enemies
-        //   spawn some new enemies 
-        //   determine / progress enemy movement patterns
-        //   determine / progress enemy attack patterns
-        // update_link();
-        //   check is_attacking
-        //   check for change in position
-        //   check for invulnerability
-        //   check for death
-        //   check for animation progress
-        //   check for incoming damage
-        update_link();
-        // update_items();
-    };
-    function check_for_dead_foes(){
-        let new_enemy_arr = render_info.room.enemies;
-        for ( let i in render_info.room.enemies ){
-            if ( render_info.room.enemies[i].health <= 0 ){
-                new_enemy_arr = new_enemy_arr.filter((x,n)=>n!=i);
-            }
-        }
-        render_info.room.enemies = new_enemy_arr;
-    };
-    function check_for_dead_link(){}
-    function check_for_expired_weapons(){}
-    function check_for_expired_loot(){}
-    function check_for_expired_items(){}
-    function progress_animation_paths(){}
-    function progress_logic_paths(){}
-    function update_link(){
-        if (link.invulnerabile){
-            (link.invulnerability_timer == 0 ) ? link.invulnerabile = false : link.invulnerability_timer--;
-        }
-    };
-    function handle_input(){
-        if (input.isDown('SPACE') && !link.animation_info.is_attacking){
-            if (link.weapon !== null){
-                link.animation_info.is_attacking = true;
-            }
-        }
-
-        if(input.isDown('DOWN') || input.isDown('s')) {
-            link.animation_info.potential_position.y = link.animation_info.position.y + link.animation_info.walking_speed * render_info.dt;
-            link.animation_info.walking_index++;
-            link.animation_info.direction.y = 0;
-            link.animation_info.direction.x = null;
-        }
-
-        if(input.isDown('UP') || input.isDown('w')) {
-            link.animation_info.potential_position.y = link.animation_info.position.y - link.animation_info.walking_speed * render_info.dt;
-            link.animation_info.walking_index++;
-            link.animation_info.direction.y = 1;
-            link.animation_info.direction.x = null;
-        }
-
-        if(input.isDown('LEFT') || input.isDown('a')) {
-            link.animation_info.potential_position.x = link.animation_info.position.x - link.animation_info.walking_speed * render_info.dt;
-            link.animation_info.walking_index++;
-            link.animation_info.direction.x = 0;
-            link.animation_info.direction.y = null;
-        }
-
-        if(input.isDown('RIGHT') || input.isDown('d')) {
-            link.animation_info.potential_position.x = link.animation_info.position.x + link.animation_info.walking_speed * render_info.dt;
-            link.animation_info.walking_index++;
-            link.animation_info.direction.x = 1;
-            link.animation_info.direction.y = null;
+function handle_passage_of_time(){
+    check_for_dead_foes();
+    check_for_dead_link();
+    check_for_expired_weapons();
+    check_for_expired_loot();
+    check_for_expired_items();
+    progress_animation_paths();
+    progress_logic_paths();
+    // update_screen();
+    //  check for viewport change
+    //  check for visual effects active
+    //  check for pre-existing room info (tiles, collision, items, enemies)
+    //  
+    // update_enemies();
+    //   check for dead enemies
+    //   despawn dead enemies
+    //   check for despawning / respawning
+    //   despawn / respawn phasing enemies after check for phasing duration
+    //   check the room enemie pool for unspawned enemies
+    //   check out spawned enemies
+    //   spawn some new enemies 
+    //   determine / progress enemy movement patterns
+    //   determine / progress enemy attack patterns
+    // update_link();
+    //   check is_attacking
+    //   check for change in position
+    //   check for invulnerability
+    //   check for death
+    //   check for animation progress
+    //   check for incoming damage
+    update_link();
+    // update_items();
+};
+function check_for_dead_foes(){
+    let new_enemy_arr = render_info.room.enemies;
+    for ( let i in render_info.room.enemies ){
+        if ( render_info.room.enemies[i].health <= 0 ){
+            new_enemy_arr = new_enemy_arr.filter((x,n)=>n!=i);
         }
     }
-    function determine_collisions(){
-        collisions = {
-            link_with_map : false,
-            link_with_enemy : false,
-            link_with_item : false,
-            link_with_doorway : false,
-            out_of_bounds : false,
-            weapon_with_enemy : false,
-            enemy_out_of_bounds : false,
-            enemy_with_map : false,
-            link_with_cave : false,
-        }   
-        // change to use links direction to check for collision with box ahead
-        if ( Math.round(link.animation_info.potential_position.x) > 15 || Math.round(link.animation_info.potential_position.x) < 0 || Math.round(link.animation_info.potential_position.y) > 10 || Math.round(link.animation_info.potential_position.y) < 0 ){
-            collisions.out_of_bounds = true;
+    render_info.room.enemies = new_enemy_arr;
+};
+function check_for_dead_link(){}
+function check_for_expired_weapons(){}
+function check_for_expired_loot(){}
+function check_for_expired_items(){}
+function progress_animation_paths(){}
+function progress_logic_paths(){}
+function update_link(){
+    if (link.invulnerabile){
+        (link.invulnerability_timer == 0 ) ? link.invulnerabile = false : link.invulnerability_timer--;
+    }
+};
+function handle_input(){
+    if (input.isDown('SPACE') && !link.animation_info.is_attacking){
+        if (link.weapon !== null){
+            link.animation_info.is_attacking = true;
         }
-        else if (render_info.room.collision_map[Math.round(link.animation_info.potential_position.x)][Math.round(link.animation_info.potential_position.y)] == 1) {
-            collisions.link_with_map = true;
-        }
-        //collision with sword strike
-        if (link.weapon !== null && link.animation_info.is_attacking){
-            let weapon = link.weapon;
-            for ( let ii in render_info.room.enemies ){
-                let enemy = render_info.room.enemies[ii];
-                let condition = false;
-                if (enemy.animation_info.position.x != null){
-                    condition = collides( 
-                        weapon.position.x*16, 
-                        weapon.position.y*16, 
-                        weapon.position.x*16 + weapon.hitbox_dimensions.w, 
-                        weapon.position.y*16 + weapon.hitbox_dimensions.h,
-                        enemy.animation_info.position.x*16,
-                        enemy.animation_info.position.y*16,
-                        enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
-                        enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,
-                    );
+    }
+
+    if(input.isDown('DOWN') || input.isDown('s')) {
+        link.animation_info.potential_position.y = link.animation_info.position.y + link.animation_info.walking_speed * render_info.dt;
+        link.animation_info.walking_index++;
+        link.animation_info.direction.y = 0;
+        link.animation_info.direction.x = null;
+    }
+
+    if(input.isDown('UP') || input.isDown('w')) {
+        link.animation_info.potential_position.y = link.animation_info.position.y - link.animation_info.walking_speed * render_info.dt;
+        link.animation_info.walking_index++;
+        link.animation_info.direction.y = 1;
+        link.animation_info.direction.x = null;
+    }
+
+    if(input.isDown('LEFT') || input.isDown('a')) {
+        link.animation_info.potential_position.x = link.animation_info.position.x - link.animation_info.walking_speed * render_info.dt;
+        link.animation_info.walking_index++;
+        link.animation_info.direction.x = 0;
+        link.animation_info.direction.y = null;
+    }
+
+    if(input.isDown('RIGHT') || input.isDown('d')) {
+        link.animation_info.potential_position.x = link.animation_info.position.x + link.animation_info.walking_speed * render_info.dt;
+        link.animation_info.walking_index++;
+        link.animation_info.direction.x = 1;
+        link.animation_info.direction.y = null;
+    }
+}
+function determine_collisions(){
+    collisions = {
+        link_with_map : false,
+        link_with_enemy : false,
+        link_with_item : false,
+        link_with_doorway : false,
+        out_of_bounds : false,
+        weapon_with_enemy : false,
+        enemy_out_of_bounds : false,
+        enemy_with_map : false,
+        link_with_cave : false,
+    }   
+    // change to use links direction to check for collision with box ahead
+    if ( Math.round(link.animation_info.potential_position.x) > 15 || Math.round(link.animation_info.potential_position.x) < 0 || Math.round(link.animation_info.potential_position.y) > 10 || Math.round(link.animation_info.potential_position.y) < 0 ){
+        collisions.out_of_bounds = true;
+    }
+    else if (render_info.room.collision_map[Math.round(link.animation_info.potential_position.x)][Math.round(link.animation_info.potential_position.y)] == 1) {
+        collisions.link_with_map = true;
+    }
+    //collision with sword strike
+    if (link.weapon !== null && link.animation_info.is_attacking){
+        let weapon = link.weapon;
+        for ( let ii in render_info.room.enemies ){
+            let enemy = render_info.room.enemies[ii];
+            let condition = false;
+            if (enemy.animation_info.position.x != null){
+                condition = collides( 
+                    weapon.position.x*16, 
+                    weapon.position.y*16, 
+                    weapon.position.x*16 + weapon.hitbox_dimensions.w, 
+                    weapon.position.y*16 + weapon.hitbox_dimensions.h,
+                    enemy.animation_info.position.x*16,
+                    enemy.animation_info.position.y*16,
+                    enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
+                    enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,
+                );
+            }
+            if ( condition ){
+                if (collisions.weapon_with_enemy == false){
+                    collisions.weapon_with_enemy = [];
                 }
-                if ( condition ){
-                    if (collisions.weapon_with_enemy == false){
-                        collisions.weapon_with_enemy = [];
-                    }
-                    weapon.collided = true;
-                    collisions.weapon_with_enemy.push( { 'weapon' : weapon, 'enemy' : enemy } );
-                }
+                weapon.collided = true;
+                collisions.weapon_with_enemy.push( { 'weapon' : weapon, 'enemy' : enemy } );
             }
         }
-        for ( let i in render_info.room.enemies){
-            let enemy = render_info.room.enemies[i];
-            let condition = collides( 
-                link.animation_info.position.x*16 +2,
-                link.animation_info.position.y*16 +2,
-                link.animation_info.position.x*16 + link.animation_info.hitbox_dimensions.w -2, 
-                link.animation_info.position.y*16 + link.animation_info.hitbox_dimensions.h -2,
-                enemy.animation_info.position.x*16,
-                enemy.animation_info.position.y*16,
-                enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
-                enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,
-            );
-            if (condition){
-                collisions.link_with_enemy = true;
+    }
+    for ( let i in render_info.room.enemies){
+        let enemy = render_info.room.enemies[i];
+        let condition = collides( 
+            link.animation_info.position.x*16 +2,
+            link.animation_info.position.y*16 +2,
+            link.animation_info.position.x*16 + link.animation_info.hitbox_dimensions.w -2, 
+            link.animation_info.position.y*16 + link.animation_info.hitbox_dimensions.h -2,
+            enemy.animation_info.position.x*16,
+            enemy.animation_info.position.y*16,
+            enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
+            enemy.animation_info.position.y*16 + enemy.animation_info.dimensions.h,
+        );
+        if (condition){
+            collisions.link_with_enemy = true;
+            break;
+        }
+    }
+    for ( let i in render_info.room.enemies){
+        if ( render_info.room.enemies[i].animation_info.potential_position.x != null ){
+            if ( Math.round(render_info.room.enemies[i].animation_info.potential_position.x) > 15 || Math.round(render_info.room.enemies[i].animation_info.potential_position.x) < 0 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) > 10 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) < 0 ){
+                collisions.enemy_out_of_bounds = true;
+                render_info.room.enemies[i].collisions.enemy_out_of_bounds = true;
+            }
+            else if (render_info.room.collision_map[Math.round(render_info.room.enemies[i].animation_info.potential_position.x)][Math.round(render_info.room.enemies[i].animation_info.potential_position.y)] == 1) {
+                collisions.enemy_with_map = true;
+                render_info.room.enemies[i].collisions.enemy_with_map = true;
+            }
+        }
+    }
+    for ( let i in render_info.room.secrets ){
+        let secret = render_info.room.secrets[i];
+        if (secret[0] == 0){
+            if (Math.round(link.animation_info.position.x) == secret[1] && Math.round(link.animation_info.position.y) == secret[2]){
+                render_info.overworld = false;
+                render_info.underworld_viewport = { x : secret[3], y : secret[4]};
+                collisions.link_with_cave = true;
+                link.animation_info.potential_position = { x : 7, y : 10 };
+                link.animation_info.temp_overworld_position = { x : link.animation_info.position.x, y : link.animation_info.position.y };
+
+            }
+        }
+    }
+}
+
+function resolve_collisions(){
+    function deny_potential_position ( enetity ) {
+        enetity.animation_info.potential_position.x = enetity.animation_info.position.x;
+        enetity.animation_info.potential_position.y = enetity.animation_info.position.y;
+    }
+    function approve_potential_position ( entity ) {
+        entity.animation_info.position.x = entity.animation_info.potential_position.x;
+        entity.animation_info.position.y = entity.animation_info.potential_position.y;
+    }
+    function reset_room () {
+        render_info.room.enemy_spawn_index=0;
+        render_info.room.enemies=[];
+        render_info.room.enemiy_pool=[];
+        //there are more attributes that require reseting
+    }
+    function move_to_a_new_viewport ( swap_value, should_swap_x, wall_index, should_decriment_viewport){
+        if ( should_swap_x ){
+            link.animation_info.potential_position.x = swap_value;  link.animation_info.position.x = swap_value;
+        } else {
+            link.animation_info.potential_position.y = swap_value;  link.animation_info.position.y = swap_value;
+        }
+        if (render_info.overworld){
+            if ( should_swap_x ) {
+                render_info.viewport.x += (should_decriment_viewport) ? -1 : 1;
+            } else {
+                render_info.viewport.y += (should_decriment_viewport) ? -1 : 1;
+            }
+        } else {
+            switch (render_info.room.exit_info[wall_index][0]){
+                case 0 :{link.potential_position = { x : 7, y : 5 }; break;} // resets position to middle of room if the character has walked through walls somehow
+                case 1 :{render_info.underworld_viewport = { x : render_info.room.exit_info[wall_index][1], y : render_info.room.exit_info[wall_index][1]}; break;}
+                case 2 :{render_info.overworld = true; 
+                    link.animation_info.position = { x : link.animation_info.temp_overworld_position.x, y : link.animation_info.temp_overworld_position.y+0.2};
+                    link.animation_info.potential_position = { x : link.animation_info.temp_overworld_position.x, y : link.animation_info.temp_overworld_position.y+0.2};
+                    break;}
+            }
+        }
+    }
+    function apply_damage_to_enemy ( enemy, damage ){
+        enemy.health -= damage;
+        //add logic for checking invulnerability
+        //add logic for applying damaged sate to trigger animation
+    }
+    function apply_damage_to_link ( damage ){
+        if (!link.invulnerabile){
+            link.health -= damage;
+            link.invulnerabile = true;
+            link.invulnerability_timer = 60;
+        }
+    }
+    function get_index_for_the_direction_link_went_out_of_bounds ( ) {
+        let index = 0; //default
+        if (Math.round(link.animation_info.potential_position.x) < 0 ){
+            index = 0; // west
+        } else if (Math.round(link.animation_info.potential_position.x) > 15){
+            index = 2 // east
+        } else if (Math.round(link.animation_info.potential_position.y) < 0){
+            index = 1; // north
+        } else if (Math.round(link.animation_info.potential_position.y) > 10 ){
+            index = 3; // south
+        }
+        return index
+    }
+    function despawn_and_reset_enemies ( enemies ) {
+        let enemy;
+        for ( i in enemies ){
+            enemy = enemies[i];
+            enemy.animation_info.potential_position.x = null;
+            enemy.animation_info.position.x = null; 
+            enemy.animation_info.potential_position.y = null;
+            enemy.animation_info.position.y = null;    
+            enemy.collisions.enemy_out_of_bounds = false;
+            render_info.room.enemy_pool.push( enemy );
+        }
+        render_info.room.enemies = render_info.room.enemies.filter( (el,n) => {return el.animation_info.position.x!=null ;}); 
+    }
+    if ( !collisions.link_with_map ){
+        approve_potential_position( link );
+        if (!link.animation_info.is_attacking){
+            link.weapon.position = { x:link.animation_info.position.x,y:link.animation_info.position.y };
+        }
+    } else {
+        deny_potential_position( link );
+    }
+    if(collisions.out_of_bounds){
+        switch ( get_index_for_the_direction_link_went_out_of_bounds() ){
+            case 0: { move_to_a_new_viewport( 15, true,  0,  true); break;}
+            case 1: { move_to_a_new_viewport( 10, false, 1,  true); break;}
+            case 2: { move_to_a_new_viewport(  0, true,  2, false); break;}
+            case 3: { move_to_a_new_viewport(  0, false, 3, false); break;}
+        }
+        reset_room();
+    } 
+    if ( collisions.weapon_with_enemy ){
+        let enemy, damage_source;
+        for (let i in collisions.weapon_with_enemy){
+            enemy = collisions.weapon_with_enemy[i]['enemy'];
+            damage_source = collisions.weapon_with_enemy[i]['weapon'];
+            apply_damage_to_enemy( enemy, damage_source.damage );
+        }
+    }
+    if ( collisions.link_with_enemy ){
+        apply_damage_to_link(1);
+    }
+    if ( collisions.enemy_out_of_bounds ){
+        despawn_and_reset_enemies( render_info.room.enemies.filter( ( en,n ) => { return en.collisions.enemy_out_of_bounds; } ) );    
+    }
+    if ( collisions.enemy_with_map ){
+        let enemy;
+        for ( let i in render_info.room.enemies ){
+            enemy = render_info.room.enemies[i];
+            enemy.collisions.enemy_with_map = false;
+            deny_potential_position ( enemy );   
+        }
+    }
+    render_info.room.enemies.filter(( enemy,n ) => { 
+        return !( 
+            enemy.collisions.enemy_with_map || 
+            enemy.collisions.enemy_out_of_bounds || 
+            enemy.animation_info.potential_position.x == null 
+        ) 
+    }).forEach( (enemy) => {
+        enemy.collisions.enemy_with_map = false;
+        approve_potential_position ( enemy );
+    }) 
+}
+function collides(x, y, r, b, x2, y2, r2, b2) {
+    return !(r <= x2 || x > r2 ||
+                b <= y2 || y > b2);
+}    
+function update_enemies ( dt ) {
+    let room = render_info.room;
+    if ( room.enemy_spawn_index == 0 && room.enemy_pool.length == 0 )
+        initialize_room_enemies();
+    if ( room.enemy_pool.length != 0){
+        for (let i in room.enemy_pool){
+            if ( render_info.now % room.enemy_pool[i].spawn_frequency < 10){
+                room.enemies.push(room.enemy_pool[i]);
+                room.enemy_pool = room.enemy_pool.filter( (el,n) => n!=i ); 
                 break;
             }
         }
-        for ( let i in render_info.room.enemies){
-            if ( render_info.room.enemies[i].animation_info.potential_position.x != null ){
-                if ( Math.round(render_info.room.enemies[i].animation_info.potential_position.x) > 15 || Math.round(render_info.room.enemies[i].animation_info.potential_position.x) < 0 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) > 10 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) < 0 ){
-                    collisions.enemy_out_of_bounds = true;
-                    render_info.room.enemies[i].collisions.enemy_out_of_bounds = true;
-                }
-                else if (render_info.room.collision_map[Math.round(render_info.room.enemies[i].animation_info.potential_position.x)][Math.round(render_info.room.enemies[i].animation_info.potential_position.y)] == 1) {
-                    collisions.enemy_with_map = true;
-                    render_info.room.enemies[i].collisions.enemy_with_map = true;
-                }
-            }
-        }
-        for ( let i in render_info.room.secrets ){
-            let secret = render_info.room.secrets[i];
-            if (secret[0] == 0){
-                if (Math.round(link.animation_info.position.x) == secret[1] && Math.round(link.animation_info.position.y) == secret[2]){
-                    render_info.overworld = false;
-                    render_info.underworld_viewport = { x : secret[3], y : secret[4]};
-                    collisions.link_with_cave = true;
-                    link.animation_info.potential_position = { x : 7, y : 10 };
-                    link.animation_info.temp_overworld_position = { x : link.animation_info.position.x, y : link.animation_info.position.y };
-
-                }
-            }
-        }
     }
-    
-    function resolve_collisions(){
-        function deny_potential_position ( enetity ) {
-            enetity.animation_info.potential_position.x = enetity.animation_info.position.x;
-            enetity.animation_info.potential_position.y = enetity.animation_info.position.y;
-        }
-        function approve_potential_position ( entity ) {
-            entity.animation_info.position.x = entity.animation_info.potential_position.x;
-            entity.animation_info.position.y = entity.animation_info.potential_position.y;
-        }
-        function reset_room () {
-            render_info.room.enemy_spawn_index=0;
-            render_info.room.enemies=[];
-            render_info.room.enemiy_pool=[];
-            //there are more attributes that require reseting
-        }
-        function move_to_a_new_viewport ( swap_value, should_swap_x, wall_index, should_decriment_viewport){
-            if ( should_swap_x ){
-                link.animation_info.potential_position.x = swap_value;  link.animation_info.position.x = swap_value;
-            } else {
-                link.animation_info.potential_position.y = swap_value;  link.animation_info.position.y = swap_value;
-            }
-            if (render_info.overworld){
-                if ( should_swap_x ) {
-                    render_info.viewport.x += (should_decriment_viewport) ? -1 : 1;
-                } else {
-                    render_info.viewport.y += (should_decriment_viewport) ? -1 : 1;
+    //for each enemy in the room
+    for ( let i in room.enemies ) {
+        //if the enemy has been spawned
+        if ( room.enemies[i].animation_info.position.x != null ) {
+            if ( room.enemies[i].animation_info.is_moving ) {
+                //if the enemies in the room are moving, 
+                //update their position and progress their point in their movement pattern
+                
+                if (room.enemies[i].animation_info.direction.y == 0) { 
+                    room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y + room.enemies[i].animation_info.walking_speed * render_info.dt;
+                } else 
+                if (room.enemies[i].animation_info.direction.y == 1) { 
+                    room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y - room.enemies[i].animation_info.walking_speed * render_info.dt;
+                } else 
+                if (room.enemies[i].animation_info.direction.x == 1) { 
+                    room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x + room.enemies[i].animation_info.walking_speed * render_info.dt;
+                } else 
+                if (room.enemies[i].animation_info.direction.x == 0) { 
+                    room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x - room.enemies[i].animation_info.walking_speed * render_info.dt;
+                }
+                room.enemies[i].animation_info.walking_index++;
+                if (room.enemies[i].animation_info.walking_index % room.enemies[i].movement_frequency == 0 ){
+                    room.enemies[i].animation_info.is_moving = false;
                 }
             } else {
-                switch (render_info.room.exit_info[wall_index][0]){
-                    case 0 :{link.potential_position = { x : 7, y : 5 }; break;} // resets position to middle of room if the character has walked through walls somehow
-                    case 1 :{render_info.underworld_viewport = { x : render_info.room.exit_info[wall_index][1], y : render_info.room.exit_info[wall_index][1]}; break;}
-                    case 2 :{render_info.overworld = true; 
-                        link.animation_info.position = { x : link.animation_info.temp_overworld_position.x, y : link.animation_info.temp_overworld_position.y+0.2};
-                        link.animation_info.potential_position = { x : link.animation_info.temp_overworld_position.x, y : link.animation_info.temp_overworld_position.y+0.2};
-                        break;}
-                }
-            }
-        }
-        function apply_damage_to_enemy ( enemy, damage ){
-            enemy.health -= damage;
-            //add logic for checking invulnerability
-            //add logic for applying damaged sate to trigger animation
-        }
-        function apply_damage_to_link ( damage ){
-            if (!link.invulnerabile){
-                link.health -= damage;
-                link.invulnerabile = true;
-                link.invulnerability_timer = 60;
-            }
-        }
-        function get_index_for_the_direction_link_went_out_of_bounds ( ) {
-            let index = 0; //default
-            if (Math.round(link.animation_info.potential_position.x) < 0 ){
-                index = 0; // west
-            } else if (Math.round(link.animation_info.potential_position.x) > 15){
-                index = 2 // east
-            } else if (Math.round(link.animation_info.potential_position.y) < 0){
-                index = 1; // north
-            } else if (Math.round(link.animation_info.potential_position.y) > 10 ){
-                index = 3; // south
-            }
-            return index
-        }
-        function despawn_and_reset_enemies ( enemies ) {
-            let enemy;
-            for ( i in enemies ){
-                enemy = enemies[i];
-                enemy.animation_info.potential_position.x = null;
-                enemy.animation_info.position.x = null; 
-                enemy.animation_info.potential_position.y = null;
-                enemy.animation_info.position.y = null;    
-                enemy.collisions.enemy_out_of_bounds = false;
-                render_info.room.enemy_pool.push( enemy );
-            }
-            render_info.room.enemies = render_info.room.enemies.filter( (el,n) => {return el.animation_info.position.x!=null ;}); 
-        }
-        if ( !collisions.link_with_map ){
-            approve_potential_position( link );
-            if (!link.animation_info.is_attacking){
-                link.weapon.position = { x:link.animation_info.position.x,y:link.animation_info.position.y };
-            }
-        } else {
-            deny_potential_position( link );
-        }
-        if(collisions.out_of_bounds){
-            switch ( get_index_for_the_direction_link_went_out_of_bounds() ){
-                case 0: { move_to_a_new_viewport( 15, true,  0,  true); break;}
-                case 1: { move_to_a_new_viewport( 10, false, 1,  true); break;}
-                case 2: { move_to_a_new_viewport(  0, true,  2, false); break;}
-                case 3: { move_to_a_new_viewport(  0, false, 3, false); break;}
-            }
-            reset_room();
-        } 
-        if ( collisions.weapon_with_enemy ){
-            let enemy, damage_source;
-            for (let i in collisions.weapon_with_enemy){
-                enemy = collisions.weapon_with_enemy[i]['enemy'];
-                damage_source = collisions.weapon_with_enemy[i]['weapon'];
-                apply_damage_to_enemy( enemy, damage_source.damage );
-            }
-        }
-        if ( collisions.link_with_enemy ){
-            apply_damage_to_link(1);
-        }
-        if ( collisions.enemy_out_of_bounds ){
-            despawn_and_reset_enemies( render_info.room.enemies.filter( ( en,n ) => { return en.collisions.enemy_out_of_bounds; } ) );    
-        }
-        if ( collisions.enemy_with_map ){
-            let enemy;
-            for ( let i in render_info.room.enemies ){
-                enemy = render_info.room.enemies[i];
-                enemy.collisions.enemy_with_map = false;
-                deny_potential_position ( enemy );   
-            }
-        }
-        render_info.room.enemies.filter(( enemy,n ) => { 
-            return !( 
-                enemy.collisions.enemy_with_map || 
-                enemy.collisions.enemy_out_of_bounds || 
-                enemy.animation_info.potential_position.x == null 
-            ) 
-        }).forEach( (enemy) => {
-            enemy.collisions.enemy_with_map = false;
-            approve_potential_position ( enemy );
-        }) 
-    }
-    function collides(x, y, r, b, x2, y2, r2, b2) {
-        return !(r <= x2 || x > r2 ||
-                    b <= y2 || y > b2);
-    }    
-    function update_enemies ( dt ) {
-        let room = render_info.room;
-        if ( room.enemy_spawn_index == 0 && room.enemy_pool.length == 0 )
-            initialize_room_enemies();
-        if ( room.enemy_pool.length != 0){
-            for (let i in room.enemy_pool){
-                if ( render_info.now % room.enemy_pool[i].spawn_frequency < 10){
-                    room.enemies.push(room.enemy_pool[i]);
-                    room.enemy_pool = room.enemy_pool.filter( (el,n) => n!=i ); 
-                    break;
-                }
-            }
-        }
-        //for each enemy in the room
-        for ( let i in room.enemies ) {
-            //if the enemy has been spawned
-            if ( room.enemies[i].animation_info.position.x != null ) {
-                if ( room.enemies[i].animation_info.is_moving ) {
-                    //if the enemies in the room are moving, 
-                    //update their position and progress their point in their movement pattern
-                    
-                    if (room.enemies[i].animation_info.direction.y == 0) { 
-                        room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y + room.enemies[i].animation_info.walking_speed * render_info.dt;
-                    } else 
-                    if (room.enemies[i].animation_info.direction.y == 1) { 
-                        room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y - room.enemies[i].animation_info.walking_speed * render_info.dt;
-                    } else 
-                    if (room.enemies[i].animation_info.direction.x == 1) { 
-                        room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x + room.enemies[i].animation_info.walking_speed * render_info.dt;
-                    } else 
-                    if (room.enemies[i].animation_info.direction.x == 0) { 
-                        room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x - room.enemies[i].animation_info.walking_speed * render_info.dt;
-                    }
-                    room.enemies[i].animation_info.walking_index++;
-                    if (room.enemies[i].animation_info.walking_index % room.enemies[i].movement_frequency == 0 ){
-                        room.enemies[i].animation_info.is_moving = false;
-                    }
-                } else {
-                    //if the enemies in the room arent moving, 
-                    //randomly determine if they will start moving during this frame
-                    if (room.enemies[i].movement_pattern != null){
-                        room.enemies[i].animation_info.direction = room.enemies[i].movement_pattern[
-                            Math.floor(
-                                Math.random() * Math.floor(room.enemies[i].movement_pattern.length-1)
-                            )
-                        ];
-                        room.enemies[i].animation_info.is_moving = true;
-
-                    }
-                }
-                if ( !room.enemies[i].animation_info.is_attacking ) {
-                    //if the enemies in the room are not attacking, 
-                    //randomly determine if they will start attacking this frame
-                } else {
-                    //if the enemies in the room are attacking,
-                    //update their attack's position and progress their point in their attack pattern
-                }
-            } else {
-                //if the enemy hasn't been spawned yet
-                let entries = fetch_entry_points().filter(
-                    (el)=>{
-                        return ( el.x!=Math.round(link.animation_info.position.x) && el.y!=Math.round(link.animation_info.position.y) )
-                    }  
-                );
-                if (entries.length != 0){
-                    room.enemies[i].animation_info.position = entries[
+                //if the enemies in the room arent moving, 
+                //randomly determine if they will start moving during this frame
+                if (room.enemies[i].movement_pattern != null){
+                    room.enemies[i].animation_info.direction = room.enemies[i].movement_pattern[
                         Math.floor(
-                            Math.random() * Math.floor(
-                                entries.length-1
-                            )
+                            Math.random() * Math.floor(room.enemies[i].movement_pattern.length-1)
                         )
                     ];
-                    room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x;
-                    room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y;
-                    room.enemy_spawn_index++;
-                    room.enemies[i].animation_info.direction = 
-                        (room.enemies[i].animation_info.potential_position.x == 0 ) ? {x:1, y:null} :
-                            (room.enemies[i].animation_info.potential_position.x == 10 ) ? {x:0, y:null} :
-                                (room.enemies[i].animation_info.potential_position.y == 0 ) ? {x:null, y:0} : {x:null, y:1};  
+                    room.enemies[i].animation_info.is_moving = true;
+
                 }
             }
-            
+            if ( !room.enemies[i].animation_info.is_attacking ) {
+                //if the enemies in the room are not attacking, 
+                //randomly determine if they will start attacking this frame
+            } else {
+                //if the enemies in the room are attacking,
+                //update their attack's position and progress their point in their attack pattern
+            }
+        } else {
+            //if the enemy hasn't been spawned yet
+            let entries = fetch_entry_points().filter(
+                (el)=>{
+                    return ( el.x!=Math.round(link.animation_info.position.x) && el.y!=Math.round(link.animation_info.position.y) )
+                }  
+            );
+            if (entries.length != 0){
+                room.enemies[i].animation_info.position = entries[
+                    Math.floor(
+                        Math.random() * Math.floor(
+                            entries.length-1
+                        )
+                    )
+                ];
+                room.enemies[i].animation_info.potential_position.x = room.enemies[i].animation_info.position.x;
+                room.enemies[i].animation_info.potential_position.y = room.enemies[i].animation_info.position.y;
+                room.enemy_spawn_index++;
+                room.enemies[i].animation_info.direction = 
+                    (room.enemies[i].animation_info.potential_position.x == 0 ) ? {x:1, y:null} :
+                        (room.enemies[i].animation_info.potential_position.x == 10 ) ? {x:0, y:null} :
+                            (room.enemies[i].animation_info.potential_position.y == 0 ) ? {x:null, y:0} : {x:null, y:1};  
+            }
         }
-        //check current room
-        //get enemy pool
-        //check which enemies are spawned
-
-        //if they are not moving
-        //randomly determine if they will move using their movement frequency
-        //if they will move, randomly select a movement pattern
         
-        //if they are moving
-        //progress movement pattern
-        
-        //determine if they will attack / shoot projectile
-
-        //for the enemies that are not spawned
-        //determine if they spawn immediately or if they spawn at intervals
-        //determine where they spawn 
-        //either spawn immediately or
-        //use the room's spawning_index (index used much like link's walking_index) and dt to determine if it is an emey spawning interval, and spawn the enemy at the location
-
-
     }
-    function fetch_entry_points(){
-        let entry_points = [];
-        for (let x in render_info.room.collision_map){
-            for (let y in render_info.room.collision_map[x]){
-                if (x == 0 || x == 15 || y == 0 || y == 10 ){
-                    if (render_info.room.collision_map[x][y] == 0){
-                        entry_points.push({'x':x-0,'y':y-0});
-                    }
+    //check current room
+    //get enemy pool
+    //check which enemies are spawned
+
+    //if they are not moving
+    //randomly determine if they will move using their movement frequency
+    //if they will move, randomly select a movement pattern
+    
+    //if they are moving
+    //progress movement pattern
+    
+    //determine if they will attack / shoot projectile
+
+    //for the enemies that are not spawned
+    //determine if they spawn immediately or if they spawn at intervals
+    //determine where they spawn 
+    //either spawn immediately or
+    //use the room's spawning_index (index used much like link's walking_index) and dt to determine if it is an emey spawning interval, and spawn the enemy at the location
+
+
+}
+function fetch_entry_points(){
+    let entry_points = [];
+    for (let x in render_info.room.collision_map){
+        for (let y in render_info.room.collision_map[x]){
+            if (x == 0 || x == 15 || y == 0 || y == 10 ){
+                if (render_info.room.collision_map[x][y] == 0){
+                    entry_points.push({'x':x-0,'y':y-0});
                 }
             }
         }
-        return entry_points;
     }
+    return entry_points;
+}
+function decompress_enemy_data(str){
+    let finished_enemy_obj = {}, enemy_arr = str.trim().replace(/\s/g, "").split("/n");
+    enemy_arr.forEach((enemy) => {
+        let attributes = enemy.split(','), key = attributes[0];
+        switch ( attributes[1] ){
+            case 'o': {key += '_orange'; break;}
+            case 'b': {key +=   '_blue'; break;}
+            case 'm': {key += '_master'; break;}
+            case 's': {key += '_slaves'; break;}
+            default : {key +=        ''; break;}
+        }
+        finished_enemy_obj[ key ] = {
+            damage : parseInt(attributes[2]) ,
+            health : parseInt(attributes[3]) ,
+            movement_frequency : parseInt(attributes[4]) ,
+            spawn_frequency : parseInt(attributes[5]) ,
+            animation_info : {
+                walking_speed : parseInt(attributes[6]) ,
+                number_of_sprites : parseInt(attributes[7]) ,
+                sprite_index : {
+                    x : parseInt(attributes[8]) ,
+                    y : parseInt(attributes[9]) ,
+                }
+            }
+        }
+    });
+    return finished_enemy_obj;
+}
 //render //////////////////////////////////////////
 function render(){
     draw_screen();
