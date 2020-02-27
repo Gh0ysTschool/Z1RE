@@ -14,6 +14,10 @@ function init(){
                 x : 5,
                 y : 8,
             },
+            temp_overworld_position: {
+                x : 5,
+                y : 8,
+            },
             hitbox_dimensions : { w : 16, h : 16 },
             walking_speed : 5 ,
             walking_index : 0,
@@ -1202,15 +1206,84 @@ function init(){
             [],
             [],
         ],
+        // UNDERWORLD ROOM DATA
+        underworld_map_data : {
+        "border_info_as_tile_indexes" : [ //currently using overworld tile indexs, change to underworld tiles
+                // compressed as drawing pathes, cave : 14(61), 8(61), 13(61), 7(61), 11(61), 7(61), 10(61), 6(61)
+                // [61,61,61,61,61,61,61,61,61,61,61,61,61,61, //top left to top right
+                //     61,61,61,61,61,61,61,61, //top right to bottom right
+                //     61,61,61,61,61,61,61,61,61,61,61,61,61, //bottom right to bottom left
+                //     61,61,61,61,61,61,61, //bottom left to top left
+                //     61,61,61,61,61,61,61,61,61,61,61, //top left to top right with offset
+                //     61,61,61,61,61,61,61, //top right to bottom right with offset
+                //     61,61,61,61,61,61,61,61,61,61,  //bottom right to bottom left with offset
+                //     61,61,61,61,61,61,], //bottom left to top left with offset
+                [
+                    [61,61,61,61,61,61,61,61,61,61,61,],
+                    [61,61,61,61,61,61,61,61,61,61,61,],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61],
+                    [61,61,61,61,61,61,61,61,61,61,61,],
+                    [61,61,61,61,61,61,61,61,61,61,61,],
+                ],
+            ],
+            "underworld_column_data" : [
+                [24,24,24,24,24,24,24,], // blank (black) tiles (from overworld)
+            ],
+            "underworld_collision_column_data" : [
+                [0,0,0,0,0,0,0,], // blank (black) tiles (from overworld)
+            ],
+            "doorways_as_tiles": [
+                [
+                    /* doorway_info[0] : east */  [ /* 0:solid wall*/[61,61,61,61,1,], /*1:open door*/[24,24,24,24,0,], /*2:locked door w/ keyhole*/[,,,,,], /*3:closed door*/[,,,,,], /*4:enterable broken wall*/[,,,,,],],
+                    /* doorway_info[1] : north */ [ /* 0:solid wall*/[61,61,61,61,1,], /*1:open door*/[24,24,24,24,0,], /*2:locked door w/ keyhole*/[,,,,,], /*3:closed door*/[,,,,,], /*4:enterable broken wall*/[,,,,,],],
+                    /* doorway_info[2] : west */  [ /* 0:solid wall*/[61,61,61,61,1,], /*1:open door*/[24,24,24,24,0,], /*2:locked door w/ keyhole*/[,,,,,], /*3:closed door*/[,,,,,], /*4:enterable broken wall*/[,,,,,],],
+                    /* doorway_info[3] : south */ [ /* 0:solid wall*/[61,61,61,61,1,], /*1:open door*/[24,24,24,24,0,], /*2:locked door w/ keyhole*/[,,,,,], /*3:closed door*/[,,,,,], /*4:enterable broken wall*/[,,,,,],], 
+                ],
+            ],
+
+            //DATA PERTAINING TO SPECIFIC ROOMS
+            "underworld_rooms_as_doorway_info" : [
+                [0,0,0,1,], // #underworld_room00
+            ],
+            "underworld_rooms_as_columns" : [
+                [0,0,0,0,0,0,0,0,0,0,0,0,], // #underworld_room00
+            ],
+            "underworld_rooms_as_collision_columns" : [
+                [0,0,0,0,0,0,0,0,0,0,0,0,], // #underworld_room00
+            ],
+            "underworld_rooms_as_color_schemes" : [
+                [0,], // #underworld_room00
+            ],
+            "underworld_rooms_as_borders" : [
+                [0,], // #underworld_room00
+            ],
+            "underworld_rooms_as_exit_data" : [
+                [[0],[0],[0],[2],],  // #underworld_room00
+            ],
+            "underworld_rooms_as_secrets" : [
+                [], // #underworld_room00
+            ]
+        },
 
         lastTime : Date.now(),
         now : Date.now(),
         dt : 0,
         sprite_sheet_src : {
-            link : 'link_sprite_sheet.png',
+            link : 'images/link_sprite_sheet.png',
             items : '',
-            enemies : 'sprites-enemies.png',
-            overworld_tiles : 'overworldtiles.png',
+            enemies : 'images/sprites-enemies.png',
+            overworld_tiles : 'images/overworldtiles.png',
             underworld_tiles : '',
         },
         sprite_sheets : {
@@ -1229,6 +1302,7 @@ function init(){
             collision_map : [],
             enemies : [],
             secrets : [],
+            exit_info : [],
         }
     };
     render_info.ctx = render_info.canvas.getContext("2d");
@@ -1501,17 +1575,17 @@ function update(dt){
                         collisions.weapon_with_enemy = [];
                     }
                     weapon.collided = true;
-                    collisions.weapon_with_enemy.push( { 'weapon' : weapon, 'enemy' : enemy} );
+                    collisions.weapon_with_enemy.push( { 'weapon' : weapon, 'enemy' : enemy } );
                 }
             }
         }
         for ( let i in render_info.room.enemies){
             let enemy = render_info.room.enemies[i];
             let condition = collides( 
-                link.animation_info.position.x*16,
-                link.animation_info.position.y*16,
-                link.animation_info.position.x*16 + link.animation_info.hitbox_dimensions.w, 
-                link.animation_info.position.y*16 + link.animation_info.hitbox_dimensions.h,
+                link.animation_info.position.x*16 +2,
+                link.animation_info.position.y*16 +2,
+                link.animation_info.position.x*16 + link.animation_info.hitbox_dimensions.w -2, 
+                link.animation_info.position.y*16 + link.animation_info.hitbox_dimensions.h -2,
                 enemy.animation_info.position.x*16,
                 enemy.animation_info.position.y*16,
                 enemy.animation_info.position.x*16 + enemy.animation_info.dimensions.w,
@@ -1542,83 +1616,138 @@ function update(dt){
                     render_info.underworld_viewport = { x : secret[3], y : secret[4]};
                     collisions.link_with_cave = true;
                     link.animation_info.potential_position = { x : 7, y : 10 };
+                    link.animation_info.temp_overworld_position = { x : link.animation_info.position.x, y : link.animation_info.position.y };
 
                 }
             }
         }
     }
+    
     function resolve_collisions(){
-        //console.log ( render_info.room.enemies.length, render_info.room.enemy_pool.length);
-        if ( !collisions.link_with_map ){
-            link.animation_info.position.x = link.animation_info.potential_position.x;
-            link.animation_info.position.y = link.animation_info.potential_position.y;
-            if (!link.animation_info.is_attacking){
-                link.weapon.position = {x:link.animation_info.position.x,y:link.animation_info.position.y};
-            }
-        } else {
-            link.animation_info.potential_position.x = link.animation_info.position.x;
-            link.animation_info.potential_position.y = link.animation_info.position.y;
+        function deny_potential_position ( enetity ) {
+            enetity.animation_info.potential_position.x = enetity.animation_info.position.x;
+            enetity.animation_info.potential_position.y = enetity.animation_info.position.y;
         }
-        if(collisions.out_of_bounds){
-            if (Math.round(link.animation_info.potential_position.x) < 0 ){
-                link.animation_info.potential_position.x = link.animation_info.position.x = 15;   
-                render_info.viewport.x -= 1;
-            }
-            else if (Math.round(link.animation_info.potential_position.x) > 15){
-                link.animation_info.potential_position.x = link.animation_info.position.x = 0;  
-                render_info.viewport.x += 1;  
-            }
-            else if (Math.round(link.animation_info.potential_position.y) < 0){
-                link.animation_info.potential_position.y = link.animation_info.position.y = 10;   
-                render_info.viewport.y -= 1; 
-            }
-            else if (Math.round(link.animation_info.potential_position.y) > 10 ){
-                link.animation_info.potential_position.y = link.animation_info.position.y = 0;   
-                render_info.viewport.y += 1; 
-            }
+        function approve_potential_position ( entity ) {
+            entity.animation_info.position.x = entity.animation_info.potential_position.x;
+            entity.animation_info.position.y = entity.animation_info.potential_position.y;
+        }
+        function reset_room () {
             render_info.room.enemy_spawn_index=0;
             render_info.room.enemies=[];
             render_info.room.enemiy_pool=[];
-        } 
-        if ( collisions.weapon_with_enemy ){
-            for (let i in collisions.weapon_with_enemy){
-                collisions.weapon_with_enemy[i]['enemy'].health -= collisions.weapon_with_enemy[i]['weapon'].damage;
+            //there are more attributes that require reseting
+        }
+        function move_to_a_new_viewport ( swap_value, should_swap_x, wall_index, should_decriment_viewport){
+            if ( should_swap_x ){
+                link.animation_info.potential_position.x = swap_value;  link.animation_info.position.x = swap_value;
+            } else {
+                link.animation_info.potential_position.y = swap_value;  link.animation_info.position.y = swap_value;
+            }
+            if (render_info.overworld){
+                if ( should_swap_x ) {
+                    render_info.viewport.x += (should_decriment_viewport) ? -1 : 1;
+                } else {
+                    render_info.viewport.y += (should_decriment_viewport) ? -1 : 1;
+                }
+            } else {
+                switch (render_info.room.exit_info[wall_index][0]){
+                    case 0 :{link.potential_position = { x : 7, y : 5 }; break;} // resets position to middle of room if the character has walked through walls somehow
+                    case 1 :{render_info.underworld_viewport = { x : render_info.room.exit_info[wall_index][1], y : render_info.room.exit_info[wall_index][1]}; break;}
+                    case 2 :{render_info.overworld = true; 
+                        link.animation_info.position = { x : link.animation_info.temp_overworld_position.x, y : link.animation_info.temp_overworld_position.y+0.2};
+                        link.animation_info.potential_position = { x : link.animation_info.temp_overworld_position.x, y : link.animation_info.temp_overworld_position.y+0.2};
+                        break;}
+                }
             }
         }
-        if ( collisions.link_with_enemy ){
+        function apply_damage_to_enemy ( enemy, damage ){
+            enemy.health -= damage;
+            //add logic for checking invulnerability
+            //add logic for applying damaged sate to trigger animation
+        }
+        function apply_damage_to_link ( damage ){
             if (!link.invulnerabile){
-                link.health--;
+                link.health -= damage;
                 link.invulnerabile = true;
                 link.invulnerability_timer = 60;
-                console.log('hello');
             }
-        };
-        if ( collisions.enemy_out_of_bounds ){
-            for ( let i in render_info.room.enemies ){
-                if ( render_info.room.enemies[i].collisions.enemy_out_of_bounds ){
-                    render_info.room.enemies[i].collisions.enemy_out_of_bounds = false;
-                    render_info.room.enemies[i].animation_info.potential_position.x = null;render_info.room.enemies[i].animation_info.position.x = null; 
-                    render_info.room.enemies[i].animation_info.potential_position.y = null;render_info.room.enemies[i].animation_info.position.y = null;    
-                    render_info.room.enemy_pool.push(render_info.room.enemies[i]);
-                
-                }
+        }
+        function get_index_for_the_direction_link_went_out_of_bounds ( ) {
+            let index = 0; //default
+            if (Math.round(link.animation_info.potential_position.x) < 0 ){
+                index = 0; // west
+            } else if (Math.round(link.animation_info.potential_position.x) > 15){
+                index = 2 // east
+            } else if (Math.round(link.animation_info.potential_position.y) < 0){
+                index = 1; // north
+            } else if (Math.round(link.animation_info.potential_position.y) > 10 ){
+                index = 3; // south
+            }
+            return index
+        }
+        function despawn_and_reset_enemies ( enemies ) {
+            let enemy;
+            for ( i in enemies ){
+                enemy = enemies[i];
+                enemy.animation_info.potential_position.x = null;
+                enemy.animation_info.position.x = null; 
+                enemy.animation_info.potential_position.y = null;
+                enemy.animation_info.position.y = null;    
+                enemy.collisions.enemy_out_of_bounds = false;
+                render_info.room.enemy_pool.push( enemy );
             }
             render_info.room.enemies = render_info.room.enemies.filter( (el,n) => {return el.animation_info.position.x!=null ;}); 
         }
-        if ( collisions.enemy_with_map ){
-            for ( let i in render_info.room.enemies ){
-                render_info.room.enemies[i].collisions.enemy_with_map = false;
-                render_info.room.enemies[i].animation_info.potential_position.x = render_info.room.enemies[i].animation_info.position.x;
-                render_info.room.enemies[i].animation_info.potential_position.y = render_info.room.enemies[i].animation_info.position.y;    
+        if ( !collisions.link_with_map ){
+            approve_potential_position( link );
+            if (!link.animation_info.is_attacking){
+                link.weapon.position = { x:link.animation_info.position.x,y:link.animation_info.position.y };
+            }
+        } else {
+            deny_potential_position( link );
+        }
+        if(collisions.out_of_bounds){
+            switch ( get_index_for_the_direction_link_went_out_of_bounds() ){
+                case 0: { move_to_a_new_viewport( 15, true,  0,  true); break;}
+                case 1: { move_to_a_new_viewport( 10, false, 1,  true); break;}
+                case 2: { move_to_a_new_viewport(  0, true,  2, false); break;}
+                case 3: { move_to_a_new_viewport(  0, false, 3, false); break;}
+            }
+            reset_room();
+        } 
+        if ( collisions.weapon_with_enemy ){
+            let enemy, damage_source;
+            for (let i in collisions.weapon_with_enemy){
+                enemy = collisions.weapon_with_enemy[i]['enemy'];
+                damage_source = collisions.weapon_with_enemy[i]['weapon'];
+                apply_damage_to_enemy( enemy, damage_source.damage );
             }
         }
-        for ( let i in render_info.room.enemies ){
-            if ( !(render_info.room.enemies[i].collisions.enemy_with_map||render_info.room.enemies[i].collisions.enemy_out_of_bounds||render_info.room.enemies[i].animation_info.potential_position.x==null) ){
-                render_info.room.enemies[i].animation_info.position.x = render_info.room.enemies[i].animation_info.potential_position.x;
-                render_info.room.enemies[i].animation_info.position.y = render_info.room.enemies[i].animation_info.potential_position.y;
+        if ( collisions.link_with_enemy ){
+            apply_damage_to_link(1);
+        }
+        if ( collisions.enemy_out_of_bounds ){
+            despawn_and_reset_enemies( render_info.room.enemies.filter( ( en,n ) => { return en.collisions.enemy_out_of_bounds; } ) );    
+        }
+        if ( collisions.enemy_with_map ){
+            let enemy;
+            for ( let i in render_info.room.enemies ){
+                enemy = render_info.room.enemies[i];
+                enemy.collisions.enemy_with_map = false;
+                deny_potential_position ( enemy );   
             }
-        
-        }   
+        }
+        render_info.room.enemies.filter(( enemy,n ) => { 
+            return !( 
+                enemy.collisions.enemy_with_map || 
+                enemy.collisions.enemy_out_of_bounds || 
+                enemy.animation_info.potential_position.x == null 
+            ) 
+        }).forEach( (enemy) => {
+            enemy.collisions.enemy_with_map = false;
+            approve_potential_position ( enemy );
+        }) 
     }
     function collides(x, y, r, b, x2, y2, r2, b2) {
         return !(r <= x2 || x > r2 ||
@@ -1751,7 +1880,7 @@ function render(){
     function draw_screen(){
         let screen = ( render_info.overworld ) 
             ? get_screen_tiles(render_info.viewport.x, render_info.viewport.y)
-            : get_screen_tiles(render_info.underworld_viewport.x, render_info.underworld_viewport.y + 8);
+            : fetch_underworld_room_details(render_info.underworld_viewport.x, render_info.underworld_viewport.y); //<- replacement logic using custom underworld functions | temporary underworld implipentation using overworld logic -> get_screen_tiles(render_info.underworld_viewport.x, render_info.underworld_viewport.y + 8);
         let viewport_w = 16; //tiles
         let viewport_h = 11; //tiles
         let border_offset = 1;
@@ -1793,6 +1922,68 @@ function render(){
         } 
 
     }
+    function fetch_underworld_room_details(screen_x,screen_y){
+        let screen = [];
+        let collision_map = [];
+        let room_index = screen_x*16 + screen_y*16;//256;
+        let border_index = render_info.underworld_map_data.underworld_rooms_as_borders[ room_index ];
+        let border = render_info.underworld_map_data.border_info_as_tile_indexes[ 
+            border_index
+        ];
+        screen.push([...border[0]]);
+        screen.push([...border[1]]);
+        for ( let columns = 0; columns < 12; columns++ ){
+            screen.push([
+                border[columns+2][0],
+                border[columns+2][1],
+                ...render_info.underworld_map_data.underworld_column_data[ 
+                    render_info.underworld_map_data.underworld_rooms_as_columns[ room_index ][columns]
+                ],
+                border[columns+2][2],
+                border[columns+2][3],
+            ]);
+        }
+        screen.push([...border[14]]);
+        screen.push([...border[15]]);
+
+        render_info.room.sprite_map = screen;
+        collision_map.push([1,1,1,1,1,1,1,1,1,1]);
+        collision_map.push([1,1,1,1,1,1,1,1,1,1]);
+        for ( let columns = 0; columns < 12; columns++ ){
+            collision_map.push( 
+                [1,1,...render_info.underworld_map_data.underworld_collision_column_data[ 
+                    render_info.underworld_map_data.underworld_rooms_as_collision_columns[ room_index ][ columns ]
+                ],1,1,]
+            )
+        }
+        collision_map.push([1,1,1,1,1,1,1,1,1,1]);
+        collision_map.push([1,1,1,1,1,1,1,1,1,1]);
+        
+        render_info.room.collision_map = Array.from(collision_map);
+        
+        render_info.room.secrets = render_info.underworld_map_data.underworld_rooms_as_secrets[ screen_x + screen_y * 16 ];
+        
+        render_info.room.exit_info = render_info.underworld_map_data.underworld_rooms_as_exit_data[ screen_x + screen_y * 16 ];
+
+        function apply_doorway({x,y,i=0}){
+            screen[x][y] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][0];
+            screen[x][y+1] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][1];
+            screen[x+1][y] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][2];
+            screen[x+1][y+1] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][3];
+            collision_map[x][y] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][4];
+            collision_map[x][y+1] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][4];
+            collision_map[x+1][y] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][4];
+            collision_map[x+1][y+1] = render_info.underworld_map_data.doorways_as_tiles[border_index][i][render_info.underworld_map_data.underworld_rooms_as_doorway_info[room_index][i]][4]; 
+        }
+        [{ x: 0, y: 5, i: 0,},{ x: 14, y: 5, i: 1,},{ x: 7, y: 0, i: 2,},{ x: 7, y: 9, i: 3,},].forEach(apply_doorway);
+
+        for (let i in render_info.room.secrets){
+            if (render_info.room.secrets[i][0] == 0){
+                render_info.room.collision_map[render_info.room.secrets[i][1]][render_info.room.secrets[i][2]] = 0;
+            }
+        }
+        return screen;
+    };
     function get_screen_tiles(screen_x,screen_y){
         let screen = [];
         let collision_map = [];
@@ -1932,9 +2123,9 @@ function render(){
                 sword_position.x += sword_extension;
             }
             if(link.animation_info.is_attacking){
+                //@wubwub
                 link.weapon.position = {x:sword_position.x/16, y:sword_position.y/16};
-                render_info.ctx.drawImage(render_info.sprite_sheets.link, 3*16, y_offset*16, 16, 16, Math.round(sword_position.x) + border_offset, Math.round(sword_position.y) + border_offset, 16, 16);
-                
+                render_info.ctx.drawImage(render_info.sprite_sheets.link, 3*16, y_offset*16, 16, 16, sword_position.x + border_offset, sword_position.y + border_offset, 16, 16);
             }
             if (link.invulnerability_timer % 3 == 0){
                 render_info.ctx.drawImage(render_info.sprite_sheets.link, 2*16, y_offset*16, 16, 16, link.animation_info.position.x*16+sprite_width + border_offset, link.animation_info.position.y*16+sprite_height + border_offset, 16, 16);

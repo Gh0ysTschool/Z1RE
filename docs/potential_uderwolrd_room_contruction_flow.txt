@@ -1,0 +1,81 @@
+fetch_underworld_room_details ( x, y )
+    get_column_for_underworld_room
+    get_data_data_for_underworld_room
+    get_collision_data_for_underworld_room
+    get_border_data_for_underworld_room
+    get_doorway_data_for_underworld_room
+    get_and_apply_room_color_scheme_data_for_underworld_room
+    construct_border_for_underworld_room_with_the_border_and_doorway_data
+    construct_unnderworld_room_mapping_using_column_and_tile_data
+    merge_border_and_mapping_to_form_whole_underworld_room_mapping
+    get_and_apply_room_exit_data_for_underworld_room
+    get_and_apply_enemy_data_for_underworld_room
+    get_and_apply_item_data_for_underworld_room
+    get_and_apply_secrets_data_for_underworld_room
+exit_underworld_room ( wall /* 0:east, 1:north, 2:south, 3:west */ )
+
+
+
+/*  DATA STRUCTURES
+
+    UNDERWORLD DUNGEONS
+        each dungeon is comprised of rooms froma collection of 40 predefined rooms
+        each has a dedicated color scheme from a set of 4 color schemes
+    UNDERWORLD COLUMN DATA
+        each column is 7 tiles tall
+        each room is composed of 12 columns
+    UNDERWORLD TILE DATA
+        4 sets (seperated by color scheme ) of 40 16 x 16 tiles 
+        tiles 0 through 3, and tiles 31 through 39 are each microtiles ( 4 8x8 tiles )
+    UNDERWORLD COLLISION DATA
+        we can use the same collection columns from the overworld collision data
+    UNDERWORLD BORDER DATA
+        so far the two border types only include 0:the cavern and 1:the dungeon
+        16x11 room, 2 tile thick border
+        stored in a single dimentional array
+        draw from top left [0,0], 
+               to top right [15. 0], skipping the middle two
+               to bottom right [15,10], skipping the middle two
+               t0 bottom left [0,10], skipping the middle two
+               to top left with offset [1,1], skipping the middle two
+               to top right with offset [14,1], skipping the middle two
+               to bottom right with offset [14, 9], skipping the middle two
+               t0 bottom left with offset [1,9], skipping the middle two
+    UNDERWORLD DOORWAY DATA
+        array of 4 doorway slots
+        each slot contains a value 0 through 4
+        each number in each slot refers to a collection of 2x2 tile doorways 
+            ( solid wall, open door, locked door w/ keyhole, closed door, enterable broken wall )
+            comprised of 4 tiles in a 1d array corrisponding to screen draw coordinate [0,0],[0,1],[1,0],[1,1]
+            along with another element in the array that represents the collision value of the doorway
+    UNDERWORLD EXIT DATA
+        1x4 array corisponding to east, north, west, and south wall exits
+        sub arrays element 0
+            0:no exit / return to center of room if detected off screen on this side
+            1:teleport to room coordinates x, y,(found in the next two elements) on entrance side inverted from the exiting direction
+            2:return to overworld coordinates
+        sub array element 1
+            underworld room coordinate x
+        sub array element 2
+            underworld room coordinate y
+    UNDERWORLD ENEMY DATA
+
+    UNDERWORLD ITEM DATA
+
+    UNDERWORLD SECRETS DATA
+
+
+    
+
+
+*/
+
+/* INSIGHTS 
+
+underworld rooms won't necesarilly be stored in adjacency
+for scrolling convenience like overworld ones are,
+
+underworld rooms will require each of their doorways to move a character to a specific room coordinate,
+not just the 'next' one.
+*/
+
