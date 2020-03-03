@@ -49,23 +49,72 @@ underworld_map_data = {
     //DATA PERTAINING TO SPECIFIC ROOMS
     "underworld_rooms_as_doorway_info" : [
         [0,0,0,1,], // #underworld_room00
+        [0,0,0,1,], // #underworld_room01
+        [0,0,0,1,], // #underworld_room02
+        [0,0,0,1,], // #underworld_room03
+        [0,0,0,1,], // #underworld_room04
+        [0,0,0,1,], // #underworld_room05
+        [0,0,0,1,], // #underworld_room06
+        [0,0,0,1,], // #underworld_room07
     ],
     "underworld_rooms_as_columns" : [
         [0,0,0,0,0,0,0,], // #underworld_room00
+        [0,0,0,0,0,0,0,], // #underworld_room01
+        [0,0,0,0,0,0,0,], // #underworld_room02
+        [0,0,0,0,0,0,0,], // #underworld_room03
+        [0,0,0,0,0,0,0,], // #underworld_room04
+        [0,0,0,0,0,0,0,], // #underworld_room05
+        [0,0,0,0,0,0,0,], // #underworld_room06
+        [0,0,0,0,0,0,0,], // #underworld_room07
     ],
     "underworld_rooms_as_collision_columns" : [
         [0,0,0,0,0,0,0,], // #underworld_room00
+        [0,0,0,0,0,0,0,], // #underworld_room01
+        [0,0,0,0,0,0,0,], // #underworld_room02
+        [0,0,0,0,0,0,0,], // #underworld_room03
+        [0,0,0,0,0,0,0,], // #underworld_room04
+        [0,0,0,0,0,0,0,], // #underworld_room05
+        [0,0,0,0,0,0,0,], // #underworld_room06
+        [0,0,0,0,0,0,0,], // #underworld_room07
     ],
     "underworld_rooms_as_color_schemes" : [
         [0,], // #underworld_room00
+        [0,], // #underworld_room01
+        [0,], // #underworld_room02
+        [0,], // #underworld_room03
+        [0,], // #underworld_room04
+        [0,], // #underworld_room05
+        [0,], // #underworld_room06
+        [0,], // #underworld_room07
     ],
     "underworld_rooms_as_borders" : [
         [0,], // #underworld_room00
+        [0,], // #underworld_room01
+        [0,], // #underworld_room02
+        [0,], // #underworld_room03
+        [0,], // #underworld_room04
+        [0,], // #underworld_room05
+        [0,], // #underworld_room06
+        [0,], // #underworld_room07
     ],
     "underworld_rooms_as_exit_data" : [
         [[0],[0],[0],[2],], // #underworld_room00
+        [[0],[0],[0],[2],], // #underworld_room01
+        [[0],[0],[0],[2],], // #underworld_room02
+        [[0],[0],[0],[2],], // #underworld_room03
+        [[0],[0],[0],[2],], // #underworld_room04
+        [[0],[0],[0],[2],], // #underworld_room05
+        [[0],[0],[0],[2],], // #underworld_room06
+        [[0],[0],[0],[2],], // #underworld_room07
     ],
     "underworld_rooms_as_secrets" : [
         [], // #underworld_room00
+        [], // #underworld_room01
+        [], // #underworld_room02
+        [], // #underworld_room03
+        [], // #underworld_room04
+        [], // #underworld_room05
+        [], // #underworld_room06
+        [], // #underworld_room07
     ]
 }
