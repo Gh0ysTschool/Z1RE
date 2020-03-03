@@ -8,6 +8,19 @@ ENVIRONMENT
 [ ]/* #E09 */ tile labels (water, enterable, burnable (I, II), bombable)
 [ ]/* #E10 */ conditional collision (swim tiles, climb tiles, fall tiles)
 [ ]/* #E11 */ transport tiles (doorways)
+[ ]/* #E12 */ data structures for room secrets
+    [ ]/* #E12a */ underworld entrance              
+    [ ]/* #E12b */ burnable square                  
+    [ ]/* #E12c */ flutable square                  
+    [ ]/* #E12d */ collision square w/ script       
+    [ ]/* #E12e */ collision square w/ enemy & tile 
+    [ ]/* #E12f */ bombable square                  
+    [ ]/* #E12g */ healing fountain                 
+    [ ]/* #E12h */ stairs                           
+    [ ]/* #E12i */ fairy                            
+    [ ]/* #E12j */ npc                              
+    [ ]/* #E12k */ item                             
+    [ ]/* #E12l */ switch (boomerang)               
 LINK
 [✔]/* #L01 */ overlay link
 [✔]/* #L02 */ move link
@@ -16,9 +29,10 @@ LINK
 [✔]/* #L05 */ swing link's sword w/ collision 
 [✔]/* #L06 */ apply damage w/ link's sword
 [ ]/* #L07 */ end game upon link's death
+[ ]/* #L08 */ throw sword while at full hearts
 HOSTILES
 [✔]/* #H01 */ overlay enemy
-[ ]/* #H02 */ spawn enemy from a limited pool of enemies
+[ ]/* #H02 */ spawn enemy from a limited pool of enemies (retain pool limit until link has traversed at least four other rooms)
 [✔]/* #H03 */ spawn enemy @ enterable tile on the edge of the screen at random time intervals
 [✔]/* #H04 */ semirandomly move enemies according to their movement patterns 
 [✔]/* #H05 */ apply damage w/ enemy collision
