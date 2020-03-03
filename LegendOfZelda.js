@@ -421,7 +421,6 @@ function init(){
     };
     init_canvas();
     load_sprite_sheets();
-    get_screen_tiles(7,7);
     init_input_listener();
 };
 // for populating the enemy entities
@@ -812,6 +811,37 @@ function update(dt){
             }
             return entry_points;
         }
+        function initialize_room_enemies(){
+            render_info.room.enemy_pool = [];
+            let temp = render_info.rooms_as_enemies[render_info.viewport.x-1 + render_info.viewport.y*16 ];
+            for (let i in temp ){
+                render_info.room.enemy_pool.push(
+                    //new Enemy(
+                    // Object.assign(
+                    //     {},
+                    //     entities.enemies[
+                    //         render_info.index_to_enemy_name_mapping[
+                    //             temp[i]
+                    //         ]
+                    //     ]
+                    // )
+                    new Enemy(
+                        render_info.index_to_enemy_name_mapping[
+                            temp[i]
+                        ],
+                        i,
+                        {
+                            ...entities.enemies[
+                                render_info.index_to_enemy_name_mapping[
+                                    temp[i]
+                                ]
+                            ]
+                        }
+                    )
+                );
+            } 
+    
+        }
         let room = render_info.room;
         if ( room.enemy_spawn_index == 0 && room.enemy_pool.length == 0 )
             initialize_room_enemies();
@@ -915,82 +945,46 @@ function update(dt){
 
 
     }
-    // unimplimented update methods ////////////////////
-    function check_for_dead_link(){}
-    function check_for_expired_weapons(){}
-    function check_for_expired_loot(){}
-    function check_for_expired_items(){}
-    function progress_animation_paths(){}
-    function progress_logic_paths(){}
-    // execution //////////////////////////////////////
-    handle_passage_of_time(dt);
-    handle_input();
-    update_enemies();
-    collision_logic();
-
-};
-// render /////////////////////////////////////////////
-function render(){
-    draw_screen();
-    draw_items();
-    draw_link();
-    draw_enemies();
-}
-    function draw_screen(){
-        let screen;
-        if ( render_info.room.new_viewport ){
-            screen = ( render_info.overworld ) 
-            ? get_screen_tiles(render_info.viewport.x, render_info.viewport.y)
-            : fetch_underworld_room_details(render_info.underworld_viewport.x, render_info.underworld_viewport.y); //<- replacement logic using custom underworld functions | temporary underworld implipentation using overworld logic -> get_screen_tiles(render_info.underworld_viewport.x, render_info.underworld_viewport.y + 8);
-            render_info.room.screen = screen;
-            render_info.new_viewport = false;
-        } else {
-            screen = render_info.room.screen;
+    function fetch_overworld_details(){
+        let screen = [];
+        let collision_map = []; 
+        let screen_x = render_info.viewport.x 
+        let screen_y = render_info.viewport.y;
+        let room_index = screen_x*16 + screen_y*256;        
+        for ( let columns = 0; columns < 16; columns++ ){
+            screen.push( 
+                render_info.column_data[ 
+                    render_info.rooms_as_columns[ 
+                        room_index + columns
+                    ]
+                ] 
+            );
         }
-        let viewport_w = 16; //tiles
-        let viewport_h = 11; //tiles
-        let border_offset = 1;
-        render_info.ctx.fillRect(0, 0, 18*16, 13*16);
-        for ( x = 0; x < viewport_w; x++){
-            for ( y = 0; y < viewport_h; y++){
-                    display_tile( screen[ x ][ y ], x + border_offset, y + border_offset );
+        render_info.room.screen = render_info.room.sprite_map /* replace sprite_map with screen thought codebase */ = screen;
+
+        for ( let columns = 0; columns < 16; columns++ ){
+            collision_map.push( 
+                render_info.column_collision_data[ 
+                    render_info.rooms_as_collision_columns[ 
+                        room_index + columns
+                    ]
+                ] 
+            )
+        }
+        render_info.room.collision_map = Array.from(collision_map);
+        
+        render_info.room.secrets = render_info.rooms_as_secrets[ screen_x + screen_y * 16 ]
+        for (let i in render_info.room.secrets){
+            if (render_info.room.secrets[i][0] == 0){
+                render_info.room.collision_map[render_info.room.secrets[i][1]][render_info.room.secrets[i][2]] = 0;
             }
         }
     }
-    function initialize_room_enemies(){
-        render_info.room.enemy_pool = [];
-        let temp = render_info.rooms_as_enemies[render_info.viewport.x-1 + render_info.viewport.y*16 ];
-        for (let i in temp ){
-            render_info.room.enemy_pool.push(
-                //new Enemy(
-                // Object.assign(
-                //     {},
-                //     entities.enemies[
-                //         render_info.index_to_enemy_name_mapping[
-                //             temp[i]
-                //         ]
-                //     ]
-                // )
-                new Enemy(
-                    render_info.index_to_enemy_name_mapping[
-                        temp[i]
-                    ],
-                    i,
-                    {
-                        ...entities.enemies[
-                            render_info.index_to_enemy_name_mapping[
-                                temp[i]
-                            ]
-                        ]
-                    }
-                )
-            );
-        } 
-
-    }
-    function fetch_underworld_room_details(screen_x,screen_y){
+    function fetch_underworld_room_details(){
         let screen = [];
         let collision_map = [];
+        let screen_x = render_info.underworld_viewport.x;
+        let screen_y = render_info.underworld_viewport.y;
         let room_index = screen_x*16 + screen_y*16;//256;
         let border_index = render_info.underworld_map_data.underworld_rooms_as_borders[ room_index ];
         let border = render_info.underworld_map_data.border_info_as_tile_indexes[ 
@@ -1048,43 +1042,37 @@ function render(){
                 render_info.room.collision_map[render_info.room.secrets[i][1]][render_info.room.secrets[i][2]] = 0;
             }
         }
-        return screen;
+        render_info.room.screen = render_info.room.sprite_map /* replace sprite_map throughout code with screen */ = screen;
     };
-    //does a lot more than just return screen tiles
-    function get_screen_tiles(screen_x,screen_y){
-        let screen = [];
-        let collision_map = [];
-        let room_index = screen_x*16 + screen_y*256;
-        for ( let columns = 0; columns < 16; columns++ ){
-            screen.push( 
-                render_info.column_data[ 
-                    render_info.rooms_as_columns[ 
-                        room_index + columns
-                    ]
-                ] 
-            );
-        }
-        render_info.room.sprite_map = screen;
-        for ( let columns = 0; columns < 16; columns++ ){
-            collision_map.push( 
-                render_info.column_collision_data[ 
-                    render_info.rooms_as_collision_columns[ 
-                        room_index + columns
-                    ]
-                ] 
-            )
-        }
-        render_info.room.collision_map = Array.from(collision_map);
-        
-        render_info.room.secrets = render_info.rooms_as_secrets[ screen_x + screen_y * 16 ]
-
-        for (let i in render_info.room.secrets){
-            if (render_info.room.secrets[i][0] == 0){
-                render_info.room.collision_map[render_info.room.secrets[i][1]][render_info.room.secrets[i][2]] = 0;
+    function update_room_details(){
+        if ( render_info.room.new_viewport ){
+            if ( render_info.overworld ) {
+                fetch_overworld_details()
+            } else {
+                fetch_underworld_room_details(); //<- replacement logic using custom underworld functions | temporary underworld implipentation using overworld logic -> get_screen_tiles(render_info.underworld_viewport.x, render_info.underworld_viewport.y + 8);
             }
+            render_info.new_viewport = false;
         }
-        return screen;
-    }
+        
+    };
+    // unimplimented update methods ////////////////////
+    function check_for_dead_link(){}
+    function check_for_expired_weapons(){}
+    function check_for_expired_loot(){}
+    function check_for_expired_items(){}
+    function progress_animation_paths(){}
+    function progress_logic_paths(){}
+    // execution //////////////////////////////////////
+    update_room_details();
+    handle_passage_of_time(dt);
+    handle_input();
+    update_enemies();
+    collision_logic();
+
+};
+// render /////////////////////////////////////////////
+function render(){
+    
     function display_tile(tile_number, destination_x, destination_y){
         let x = tile_number % 20;
         let y = (tile_number - x) / 20; 
@@ -1202,7 +1190,23 @@ function render(){
                 render_info.ctx.drawImage(render_info.sprite_sheets.link, ( ( Math.floor( link.animation_info.walking_index / 10 ) % 2 ) )*16, y_offset*16, 16, 16, link.animation_info.position.x*16+sprite_width + border_offset, link.animation_info.position.y*16+sprite_height + border_offset, 16, 16);
             }
         }
+    }   
+    function draw_screen(){
+        let screen = render_info.room.screen;
+        let viewport_w = 16; //tiles
+        let viewport_h = 11; //tiles
+        let border_offset = 1;
+        render_info.ctx.fillRect(0, 0, 18*16, 13*16);
+        for ( x = 0; x < viewport_w; x++){
+            for ( y = 0; y < viewport_h; y++){
+                    display_tile( screen[ x ][ y ], x + border_offset, y + border_offset );
+            }
+        }
     }
-
+    draw_screen();
+    draw_items();
+    draw_link();
+    draw_enemies();
+}
 init();
 
