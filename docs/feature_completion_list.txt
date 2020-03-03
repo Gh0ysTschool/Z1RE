@@ -21,6 +21,7 @@ ENVIRONMENT
     [ ]/* #E12j */ npc                              
     [ ]/* #E12k */ item                             
     [ ]/* #E12l */ switch (boomerang)               
+[ ]/* #E13 */ reuse single cave room by dynamically populating its contents based on where it was entered from            
 LINK
 [✔]/* #L01 */ overlay link
 [✔]/* #L02 */ move link
