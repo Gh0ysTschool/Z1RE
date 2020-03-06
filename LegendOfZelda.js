@@ -798,6 +798,50 @@ function update(dt){
                     deny_potential_position ( enemy );   
                 }
             }
+            if ( collisions.link_with_item ){
+                let items = render_info.room.items;
+                for( i in items ){
+                    let item = items[i];
+                    if ( item.can_be_picked_up ){
+                        switch ( item.type ){
+                            case  0 : {break;} // Wooden Sword
+                            case  1 : {break;} // White Sword
+                            case  2 : {break;} // Magical Sword
+                            case  3 : {break;} // Magical Shield
+                            case  4 : {break;} // Wooden Shield
+                            case  5 : {break;} // Boomerang
+                            case  6 : {break;} // Magical Boomerang
+                            case  7 : {break;} // Bomb
+                            case  8 : {break;} // Bow
+                            case  9 : {break;} // Arrow
+                            case 10 : {break;} // Silver Arrow
+                            case 11 : {break;} // Blue Candle
+                            case 12 : {break;} // Red Candle
+                            case 13 : {break;} // Recorder
+                            case 14 : {break;} // Food
+                            case 15 : {break;} // Letter
+                            case 16 : {break;} // Water of Life
+                            case 17 : {break;} // 2nd Potion
+                            case 18 : {break;} // Magical Rod
+                            case 19 : {break;} // Raft
+                            case 20 : {break;} // Book of Magic
+                            case 21 : {break;} // Blue Ring
+                            case 22 : {break;} // Red Ring
+                            case 23 : {break;} // Stepladder
+                            case 24 : {break;} // Magical Key
+                            case 25 : {break;} // Power Bracelet
+                            case 26 : {break;} // Compass
+                            case 27 : {break;} // Dungeon Map 
+                            case 28 : {break;} // Small Key
+                            case 29 : {break;} // Triforce Shard
+                            case 30 : {break;} // Recovery Heart
+                            case 31 : {break;} // Heart Container
+                            case 32 : {break;} // Clock
+                            case 33 : {break;} // Rupee
+                        }
+                    }
+                }
+            }
             render_info.room.enemies.filter(( enemy,n ) => { 
                 return !( 
                     enemy.collisions.enemy_with_map || 
