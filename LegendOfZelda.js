@@ -586,6 +586,7 @@ function update(dt){
                 enemy_out_of_bounds : false,
                 enemy_with_map : false,
                 link_with_cave : false,
+                link_with_item : false,
             }   
             // change to use links direction to check for collision with box ahead
             if ( Math.round(link.animation_info.potential_position.x) > 15 || Math.round(link.animation_info.potential_position.x) < 0 || Math.round(link.animation_info.potential_position.y) > 10 || Math.round(link.animation_info.potential_position.y) < 0 ){
@@ -661,6 +662,17 @@ function update(dt){
                         link.animation_info.temp_overworld_position = { x : link.animation_info.position.x, y : link.animation_info.position.y };
     
                     }
+                }
+            }
+            for ( let i in render_info.room.items ){
+                let item = render_info.room.items[i],
+                    l = link.animation_info.position,
+                    ld = link.animation_info.hitbox_dimensions, 
+                    i = item.animation_info.position,
+                    id = item.animation_info.hitbox_dimensions,
+                if ( collides (l.x*16, l.y*16, l.x+ld.w, l.y+ld.h, i.x*16, i.y*16, i.x+id.w, i.y+id.h)){
+                    item.collisions.link_with_item = true;
+                    collisions.link_with_item = true;
                 }
             }
         }
