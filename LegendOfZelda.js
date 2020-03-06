@@ -587,15 +587,17 @@ function update(dt){
                 enemy_with_map : false,
                 link_with_cave : false,
                 link_with_item : false,
-            }   
+            }
+            //COLLISIONS WITH OUT-OF-BOUNDS   
             // change to use links direction to check for collision with box ahead
             if ( Math.round(link.animation_info.potential_position.x) > 15 || Math.round(link.animation_info.potential_position.x) < 0 || Math.round(link.animation_info.potential_position.y) > 10 || Math.round(link.animation_info.potential_position.y) < 0 ){
                 collisions.out_of_bounds = true;
             }
+            //COLLISIONS WITH MAP GEOMETRY
             else if (render_info.room.collision_map[Math.round(link.animation_info.potential_position.x)][Math.round(link.animation_info.potential_position.y)] == 1) {
                 collisions.link_with_map = true;
             }
-            //collision with sword strike
+            //COLLISIONS WITH SWORD STRIKE
             if (link.weapon !== null && link.animation_info.is_attacking){
                 let weapon = link.weapon;
                 for ( let ii in render_info.room.enemies ){
@@ -622,6 +624,7 @@ function update(dt){
                     }
                 }
             }
+            //COLLISIONS WITH ENEMIES
             for ( let i in render_info.room.enemies){
                 let enemy = render_info.room.enemies[i];
                 let condition = collides( 
@@ -639,6 +642,7 @@ function update(dt){
                     break;
                 }
             }
+            //COLLISON BETWEEN ENEMIES & THE MAP GEOMETRY
             for ( let i in render_info.room.enemies){
                 if ( render_info.room.enemies[i].animation_info.potential_position.x != null ){
                     if ( Math.round(render_info.room.enemies[i].animation_info.potential_position.x) > 15 || Math.round(render_info.room.enemies[i].animation_info.potential_position.x) < 0 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) > 10 || Math.round(render_info.room.enemies[i].animation_info.potential_position.y) < 0 ){
@@ -651,6 +655,7 @@ function update(dt){
                     }
                 }
             }
+            //COLLISION WITH CAVERN 
             for ( let i in render_info.room.secrets ){
                 let secret = render_info.room.secrets[i];
                 if (secret[0] == 0){
@@ -664,6 +669,7 @@ function update(dt){
                     }
                 }
             }
+            //COLLISION WITH ITEMS
             for ( let i in render_info.room.items ){
                 let item = render_info.room.items[i],
                     l = link.animation_info.position,
