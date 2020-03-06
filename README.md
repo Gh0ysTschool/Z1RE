@@ -1,8 +1,2 @@
-This project is currently incomplete. Working funcitonality includes:
-    mapdata column-tile rawhex decompression
-    tile movement
-    screen transition
-    overworld traversal
-    attack animations
-    enemy placement
-    damaing enemies
+A javascript port of Nintendo's NES title Legend of Zelda
+This project is a work in progress. Check the feature list to see what portions of the game are functional
