@@ -121,6 +121,8 @@ function init(){
         health : 3,
         invulnerabile : false,
         invulnerability_timer : 0,
+        wallet_size : 999,
+        wallet : 0,
         animation_info : {
             position: {
                 x : 5,
