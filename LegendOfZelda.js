@@ -801,7 +801,8 @@ function update(dt){
                 }
             }
             if ( collisions.link_with_item ){
-                let items = render_info.room.items;
+                let items = render_info.room.items,
+                    indexes_to_pick_up = [];
                 for( i in items ){
                     let item = items[i];
                     if ( item.can_be_picked_up ){
@@ -839,10 +840,12 @@ function update(dt){
                             case 30 : {break;} // Recovery Heart
                             case 31 : {break;} // Heart Container
                             case 32 : {break;} // Clock
-                            case 33 : {break;} // Rupee
+                            case 33 : { if ( link.wallet + item.value <= link.wallet_size ) link.wallet += item.value; break;} // Rupee
                         }
+                        indexes_to_pick_up.push(i);
                     }
                 }
+                render_info.room.items = items.filter( (e,n) => { return !( indexes_to_pick_up.includes( n ) ) });
             }
             render_info.room.enemies.filter(( enemy,n ) => { 
                 return !( 
@@ -1191,7 +1194,6 @@ function render(){
         }
     }
     function draw_items(){
-
     }
     function draw_link(){
         let sprite_height = 16; //pixels
