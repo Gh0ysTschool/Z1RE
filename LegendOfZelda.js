@@ -416,6 +416,7 @@ function init(){
             secrets : [],
             exit_info : [],
             screen : [],
+            items : [],
             new_viewport : true,
         }
     };
