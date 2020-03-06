@@ -20,7 +20,7 @@ ENVIRONMENT
     [ ]/* #E12i */ fairy                            
     [ ]/* #E12j */ npc                              
     [ ]/* #E12k */ item                             
-    [ ]/* #E12l */ switch (boomerang)               
+    [ ]/* #E12l */ switch (boomerang)   
 [ ]/* #E13 */ reuse single cave room by dynamically populating its contents based on where it was entered from            
 LINK
 [✔]/* #L01 */ overlay link
@@ -33,10 +33,11 @@ LINK
 [ ]/* #L08 */ throw sword while at full hearts
 HOSTILES
 [✔]/* #H01 */ overlay enemy
-[ ]/* #H02 */ spawn enemy from a limited pool of enemies (retain pool limit until link has traversed at least four other rooms)
+[✔]/* #H02 */ spawn enemy from a limited pool of enemies 
 [✔]/* #H03 */ spawn enemy @ enterable tile on the edge of the screen at random time intervals
 [✔]/* #H04 */ semirandomly move enemies according to their movement patterns 
 [✔]/* #H05 */ apply damage w/ enemy collision
+[✔]/* #H05 */ retain pool limit until link has traversed at least four other rooms
 ITEMS
 [ ]/* #I06 */ spawn loot
 [ ]/* #I07 */ spawn loot on enemy death from loot tables
