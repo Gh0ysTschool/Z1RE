@@ -677,7 +677,7 @@ function update(dt){
                     l = link.animation_info.position,
                     ld = link.animation_info.hitbox_dimensions, 
                     i = item.animation_info.position,
-                    id = item.animation_info.hitbox_dimensions,
+                    id = item.animation_info.hitbox_dimensions;
                 if ( collides (l.x*16, l.y*16, l.x+ld.w, l.y+ld.h, i.x*16, i.y*16, i.x+id.w, i.y+id.h)){
                     item.collisions.link_with_item = true;
                     collisions.link_with_item = true;
